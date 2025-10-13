@@ -32,7 +32,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <?php if (isset($_SESSION['nombre1'])):  // SESION INICIADA ?>
-                <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto">
+                <?php if ($_SESSION['rol'] == 'Alumno'): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="alumnoDropdown" role="button" data-bs-toggle="dropdown">
+                            Mi Campus
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./mis_materias.php">Mis Materias</a></li>
+                            <li><a class="dropdown-item" href="./mis_inasistencias.php">Mis Inasistencias</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="proyectoDropdown" role="button" data-bs-toggle="dropdown">
                             Menu desplegable (Modificar)
@@ -44,14 +55,15 @@
                             <li id="Listado"><a class="dropdown-item" href="./listarAutos.php">.........</a></li>
                         </ul>
                     </li>
-      
-                    <li class="nav-item">
-                        <a class="nav-link" href="./perfil.php">Perfil de <?php echo $_SESSION['nombre1']; ?></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./logout.php">Cerrar sesión</a>
-                    </li>
-                </ul>
+                <?php endif; ?>
+        
+                <li class="nav-item">
+                    <a class="nav-link" href="./perfil.php">Perfil de <?php echo $_SESSION['nombre1']; ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">Cerrar sesión</a>
+                </li>
+            </ul>
             <?php else: // SESION NO INICIADA?>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">

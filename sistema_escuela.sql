@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2025 at 10:05 PM
+-- Generation Time: Oct 19, 2025 at 11:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,7 +36,9 @@ CREATE TABLE `alumnos` (
 --
 
 INSERT INTO `alumnos` (`DNI_Alumno`) VALUES
-(45123456);
+(45123456),
+(45123457),
+(45123458);
 
 -- --------------------------------------------------------
 
@@ -68,7 +70,14 @@ INSERT INTO `auditoria` (`ID`, `Tabla`, `Accion`, `DNI_Usuario`, `DNI_Tutor`, `I
 (5, 'Materias', 'INSERT', NULL, NULL, 1, NULL, '2025-10-13', 'root@localhost'),
 (6, 'Materias', 'INSERT', NULL, NULL, 2, NULL, '2025-10-13', 'root@localhost'),
 (7, 'Materias', 'INSERT', NULL, NULL, 3, NULL, '2025-10-13', 'root@localhost'),
-(8, 'Usuarios', 'UPDATE', 45123456, NULL, NULL, NULL, '2025-10-13', 'root@localhost');
+(8, 'Usuarios', 'UPDATE', 45123456, NULL, NULL, NULL, '2025-10-13', 'root@localhost'),
+(9, 'Usuarios', 'INSERT', 45123457, NULL, NULL, NULL, '2025-10-15', 'root@localhost'),
+(10, 'Usuarios', 'INSERT', 45123458, NULL, NULL, NULL, '2025-10-15', 'root@localhost'),
+(11, 'Cursos', 'INSERT', NULL, NULL, NULL, 2, '2025-10-15', 'root@localhost'),
+(12, 'Cursos', 'INSERT', NULL, NULL, NULL, 3, '2025-10-15', 'root@localhost'),
+(13, 'Usuarios', 'UPDATE', 40891234, NULL, NULL, NULL, '2025-10-15', 'root@localhost'),
+(14, 'Cursos', 'DELETE', NULL, NULL, NULL, 2, '2025-10-19', 'root@localhost'),
+(15, 'Cursos', 'DELETE', NULL, NULL, NULL, 3, '2025-10-19', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -79,7 +88,6 @@ INSERT INTO `auditoria` (`ID`, `Tabla`, `Accion`, `DNI_Usuario`, `DNI_Tutor`, `I
 CREATE TABLE `cursos` (
   `ID` int(11) NOT NULL,
   `DNI_Preceptor` int(11) NOT NULL,
-  `DNI_Alumno` int(11) NOT NULL,
   `Turno` enum('Mañana','Tarde','Noche') NOT NULL,
   `Grupo` varchar(255) NOT NULL,
   `Anio` int(4) NOT NULL,
@@ -92,8 +100,8 @@ CREATE TABLE `cursos` (
 -- Dumping data for table `cursos`
 --
 
-INSERT INTO `cursos` (`ID`, `DNI_Preceptor`, `DNI_Alumno`, `Turno`, `Grupo`, `Anio`, `Division`, `Especialidad`, `Estado`) VALUES
-(1, 40891234, 45123456, 'Mañana', 'A', 5, '1ra', 'Informática', 1);
+INSERT INTO `cursos` (`ID`, `DNI_Preceptor`, `Turno`, `Grupo`, `Anio`, `Division`, `Especialidad`, `Estado`) VALUES
+(1, 40891234, 'Mañana', 'A', 5, '1ra', 'Informática', 1);
 
 --
 -- Triggers `cursos`
@@ -132,6 +140,53 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `curso_alumno`
+--
+
+CREATE TABLE `curso_alumno` (
+  `ID` int(11) NOT NULL,
+  `ID_Curso` int(11) NOT NULL,
+  `DNI_Alumno` int(11) NOT NULL,
+  `Fecha_Inscripcion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Estado` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Dumping data for table `curso_alumno`
+--
+
+INSERT INTO `curso_alumno` (`ID`, `ID_Curso`, `DNI_Alumno`, `Fecha_Inscripcion`, `Estado`) VALUES
+(1, 1, 45123456, '2025-10-19 21:30:41', 1),
+(2, 1, 45123457, '2025-10-19 21:30:41', 1),
+(3, 1, 45123458, '2025-10-19 21:30:41', 1);
+
+--
+-- Triggers `curso_alumno`
+--
+DELIMITER $$
+CREATE TRIGGER `aud_curso_alumno_delete` AFTER DELETE ON `curso_alumno` FOR EACH ROW BEGIN
+    INSERT INTO Auditoria (
+        Tabla, Accion, ID_Curso, DNI_Usuario, Fecha, Usuario
+    ) VALUES (
+        'Curso_Alumno', 'DELETE', OLD.ID_Curso, OLD.DNI_Alumno, CURRENT_DATE, CURRENT_USER()
+    );
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `aud_curso_alumno_insert` AFTER INSERT ON `curso_alumno` FOR EACH ROW BEGIN
+    INSERT INTO Auditoria (
+        Tabla, Accion, ID_Curso, DNI_Usuario, Fecha, Usuario
+    ) VALUES (
+        'Curso_Alumno', 'INSERT', NEW.ID_Curso, NEW.DNI_Alumno, CURRENT_DATE, CURRENT_USER()
+    );
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inasistencias`
 --
 
@@ -151,7 +206,15 @@ CREATE TABLE `inasistencias` (
 INSERT INTO `inasistencias` (`ID`, `DNI_Alumno`, `Fecha`, `Tipo`, `Observaciones`, `Fecha_Carga`) VALUES
 (1, 45123456, '2025-10-01', 'Falta', 'Sin justificativo', '2025-10-13 19:29:35'),
 (2, 45123456, '2025-10-05', 'Tarde', 'Llegó 15 minutos tarde', '2025-10-13 19:29:35'),
-(3, 45123456, '2025-10-10', 'Falta Justificada', 'Certificado médico presentado', '2025-10-13 19:29:35');
+(3, 45123456, '2025-10-10', 'Falta Justificada', 'Certificado médico presentado', '2025-10-13 19:29:35'),
+(4, 45123456, '2025-10-13', 'Falta', NULL, '2025-10-14 01:31:22'),
+(5, 45123457, '2025-10-01', 'Tarde', 'Llegó 10 minutos tarde', '2025-10-15 03:14:32'),
+(6, 45123457, '2025-10-05', 'Falta', NULL, '2025-10-15 03:14:32'),
+(7, 45123458, '2025-10-02', 'Falta', NULL, '2025-10-15 03:14:32'),
+(8, 45123458, '2025-10-08', 'Tarde', NULL, '2025-10-15 03:14:32'),
+(9, 45123458, '2025-10-12', 'Falta', NULL, '2025-10-15 03:14:32'),
+(10, 45123457, '2025-10-19', 'Tarde', NULL, '2025-10-19 20:32:03'),
+(11, 45123458, '2025-10-19', 'Falta', NULL, '2025-10-19 20:32:03');
 
 -- --------------------------------------------------------
 
@@ -224,17 +287,27 @@ CREATE TABLE `notas` (
   `primerCuatri` int(11) DEFAULT NULL,
   `segundoInforme` int(11) DEFAULT NULL,
   `segundoCuatri` int(11) DEFAULT NULL,
-  `notaFinal` int(11) DEFAULT NULL
+  `notaFinal` int(11) DEFAULT NULL,
+  `Estado_Aprobacion` enum('Pendiente','Aprobado','Rechazado') DEFAULT 'Pendiente',
+  `DNI_Preceptor_Aprobador` int(11) DEFAULT NULL,
+  `Fecha_Aprobacion` datetime DEFAULT NULL,
+  `Observaciones_Preceptor` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Dumping data for table `notas`
 --
 
-INSERT INTO `notas` (`dni_alumno`, `id_materia`, `primerInforme`, `primerCuatri`, `segundoInforme`, `segundoCuatri`, `notaFinal`) VALUES
-(45123456, 1, 8, 7, 9, 8, 8),
-(45123456, 2, 9, 9, 10, 9, 9),
-(45123456, 3, 7, 7, 8, 7, 7);
+INSERT INTO `notas` (`dni_alumno`, `id_materia`, `primerInforme`, `primerCuatri`, `segundoInforme`, `segundoCuatri`, `notaFinal`, `Estado_Aprobacion`, `DNI_Preceptor_Aprobador`, `Fecha_Aprobacion`, `Observaciones_Preceptor`) VALUES
+(45123456, 1, 8, 7, 9, 8, 10, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123456, 2, 10, 10, 10, 4, 10, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123456, 3, 7, 7, 8, 7, 7, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123457, 1, 9, 9, 10, 9, 9, 'Pendiente', NULL, NULL, NULL),
+(45123457, 2, 8, 8, 9, 8, 8, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123457, 3, 10, 10, 10, 10, 10, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123458, 1, 6, 6, 7, 6, 6, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL),
+(45123458, 2, 5, 5, 6, 5, 5, 'Pendiente', NULL, NULL, NULL),
+(45123458, 3, 7, 7, 8, 7, 7, 'Aprobado', 40891234, '2025-10-15 00:26:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -367,8 +440,10 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`DNI`, `Primer_nombre`, `Segundo_nombre`, `Apellido`, `Email`, `Password_Usuario`, `Nacionalidad`, `Localidad`, `Calle`, `Altura`, `Fecha_Nacimiento`, `Telefono`, `Rol`, `Estado`, `Fecha_Creacion`, `Usuario`) VALUES
 (39287654, 'Carlos', 'Eduardo', 'Ramírez', 'c.ramirez@docente.edu', '$2y$10$MzwUkVumdGaZTDnaYNzSc.t1bi5.52qKomRDA.KIshI7K6gD.MnIO', 'Argentina', 'La Plata', 'Calle 12', 876, '1979-11-03', '11 9988 7766', 'Profesor', 1, '2025-09-11 15:26:34', 'root@localhost'),
-(40891234, 'Lucía', 'Marina', 'Fernández', 'lucia.fernandez@educa.ar', NULL, 'Argentina', 'Morón', 'Av. Rivadavia', 12345, '1985-06-14', '11 4567 8910', 'Preceptor', 1, '2025-09-11 15:26:27', 'root@localhost'),
-(45123456, 'Nicolas', 'Fernando', 'Ferreira', 'nico.ferre@alumno.edu', '$2y$10$D2sub00bm1HMKwLkOE9eQeoFRMBFBEU2AkRsHdxwDWOuHxwFIt08i', 'Argentina', 'San Miguel', 'Belgrano', 1234, '2007-03-15', '11 1234 5678', 'Alumno', 1, '2025-10-13 19:29:06', 'root@localhost');
+(40891234, 'Lucía', 'Marina', 'Fernández', 'lucia.fernandez@educa.ar', '$2y$10$jxbX4FVW9bFf0cux8Eo4c.lVgxYPlTxN0IXxssmspzx9FV/23TwcC', 'Argentina', 'Morón', 'Av. Rivadavia', 12345, '1985-06-14', '11 4567 8910', 'Preceptor', 1, '2025-09-11 15:26:27', 'root@localhost'),
+(45123456, 'Nicolas', 'Fernando', 'Ferreira', 'nico.ferre@alumno.edu', '$2y$10$D2sub00bm1HMKwLkOE9eQeoFRMBFBEU2AkRsHdxwDWOuHxwFIt08i', 'Argentina', 'San Miguel', 'Belgrano', 1234, '2007-03-15', '11 1234 5678', 'Alumno', 1, '2025-10-13 19:29:06', 'root@localhost'),
+(45123457, 'María', 'Luz', 'González', 'maria.gonzalez@alumno.edu', NULL, 'Argentina', 'San Miguel', 'San Martín', 567, '2007-05-20', '11 2345 6789', 'Alumno', 1, '2025-10-15 03:14:32', 'root@localhost'),
+(45123458, 'Pedro', 'José', 'Martínez', 'pedro.martinez@alumno.edu', NULL, 'Argentina', 'San Miguel', 'Mitre', 890, '2007-08-15', '11 3456 7890', 'Alumno', 1, '2025-10-15 03:14:32', 'root@localhost');
 
 --
 -- Triggers `usuarios`
@@ -440,7 +515,15 @@ ALTER TABLE `auditoria`
 --
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `DNI_Preceptor` (`DNI_Preceptor`),
+  ADD KEY `DNI_Preceptor` (`DNI_Preceptor`);
+
+--
+-- Indexes for table `curso_alumno`
+--
+ALTER TABLE `curso_alumno`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `curso_alumno_unique` (`ID_Curso`,`DNI_Alumno`),
+  ADD KEY `ID_Curso` (`ID_Curso`),
   ADD KEY `DNI_Alumno` (`DNI_Alumno`);
 
 --
@@ -504,19 +587,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `curso_alumno`
+--
+ALTER TABLE `curso_alumno`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `inasistencias`
 --
 ALTER TABLE `inasistencias`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `materias`
@@ -538,8 +627,14 @@ ALTER TABLE `alumnos`
 -- Constraints for table `cursos`
 --
 ALTER TABLE `cursos`
-  ADD CONSTRAINT `cursos_ibfk_1` FOREIGN KEY (`DNI_Preceptor`) REFERENCES `preceptor` (`DNI_Preceptor`),
-  ADD CONSTRAINT `cursos_ibfk_2` FOREIGN KEY (`DNI_Alumno`) REFERENCES `alumnos` (`DNI_Alumno`);
+  ADD CONSTRAINT `cursos_ibfk_1` FOREIGN KEY (`DNI_Preceptor`) REFERENCES `preceptor` (`DNI_Preceptor`);
+
+--
+-- Constraints for table `curso_alumno`
+--
+ALTER TABLE `curso_alumno`
+  ADD CONSTRAINT `curso_alumno_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `cursos` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `curso_alumno_ibfk_2` FOREIGN KEY (`DNI_Alumno`) REFERENCES `alumnos` (`DNI_Alumno`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `inasistencias`

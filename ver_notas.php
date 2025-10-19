@@ -31,11 +31,11 @@ if (!$id_materia) {
         
         <?php
         // Obtener información de la materia
-        $query_materia = "SELECT m.Nombre, u.Primer_nombre, u.Apellido 
-                         FROM materias m
-                         INNER JOIN profesores p ON m.DNI_Profesor = p.DNI_Profesor
-                         INNER JOIN usuarios u ON p.DNI_Profesor = u.DNI
-                         WHERE m.ID = '$id_materia'";
+        $query_materia = "SELECT materias.Nombre, usuarios.Primer_nombre, usuarios.Apellido 
+                         FROM materias
+                         INNER JOIN profesores ON materias.DNI_Profesor = profesores.DNI_Profesor
+                         INNER JOIN usuarios ON profesores.DNI_Profesor = usuarios.DNI
+                         WHERE materias.ID = '$id_materia'";
         $result_materia = mysqli_query($CONN, $query_materia);
         
         if (mysqli_num_rows($result_materia) > 0) {

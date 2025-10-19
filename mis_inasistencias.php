@@ -26,11 +26,11 @@ $dni_alumno = $_SESSION['DNI'];
         <?php
         // Contar totales
         $query_totales = "SELECT 
-                            SUM(CASE WHEN Tipo = 'Falta' THEN 1 ELSE 0 END) as total_faltas,
-                            SUM(CASE WHEN Tipo = 'Tarde' THEN 0.5 ELSE 0 END) as total_tardes,
-                            SUM(CASE WHEN Tipo = 'Falta Justificada' THEN 1 ELSE 0 END) as total_justificadas
+                            SUM(CASE WHEN inasistencias.Tipo = 'Falta' THEN 1 ELSE 0 END) as total_faltas,
+                            SUM(CASE WHEN inasistencias.Tipo = 'Tarde' THEN 0.5 ELSE 0 END) as total_tardes,
+                            SUM(CASE WHEN inasistencias.Tipo = 'Falta Justificada' THEN 1 ELSE 0 END) as total_justificadas
                           FROM inasistencias 
-                          WHERE DNI_Alumno = '$dni_alumno'";
+                          WHERE inasistencias.DNI_Alumno = '$dni_alumno'";
         $result_totales = mysqli_query($CONN, $query_totales);
         $totales = mysqli_fetch_assoc($result_totales);
         
@@ -71,8 +71,8 @@ $dni_alumno = $_SESSION['DNI'];
         
         // Mostrar detalle de inasistencias
         $query_inasistencias = "SELECT * FROM inasistencias 
-                                WHERE DNI_Alumno = '$dni_alumno' 
-                                ORDER BY Fecha DESC";
+                                WHERE inasistencias.DNI_Alumno = '$dni_alumno' 
+                                ORDER BY inasistencias.Fecha DESC";
         $result_inasistencias = mysqli_query($CONN, $query_inasistencias);
         
         if (mysqli_num_rows($result_inasistencias) > 0) {

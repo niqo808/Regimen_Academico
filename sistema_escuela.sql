@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-09-2025 a las 18:53:20
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Oct 13, 2025 at 10:05 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,23 +18,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `sistema_escuela`
+-- Database: `sistema_escuela`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alumnos`
+-- Table structure for table `alumnos`
 --
 
 CREATE TABLE `alumnos` (
   `DNI_Alumno` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Dumping data for table `alumnos`
+--
+
+INSERT INTO `alumnos` (`DNI_Alumno`) VALUES
+(45123456);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `auditoria`
+-- Table structure for table `auditoria`
 --
 
 CREATE TABLE `auditoria` (
@@ -50,16 +57,23 @@ CREATE TABLE `auditoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `auditoria`
+-- Dumping data for table `auditoria`
 --
 
 INSERT INTO `auditoria` (`ID`, `Tabla`, `Accion`, `DNI_Usuario`, `DNI_Tutor`, `ID_Materia`, `ID_Curso`, `Fecha`, `Usuario`) VALUES
-(1, 'Usuarios', 'DELETE', 47567419, NULL, NULL, NULL, '2025-09-11', 'root@localhost');
+(1, 'Usuarios', 'DELETE', 47567419, NULL, NULL, NULL, '2025-09-11', 'root@localhost'),
+(2, 'Usuarios', 'UPDATE', 39287654, NULL, NULL, NULL, '2025-10-13', 'root@localhost'),
+(3, 'Usuarios', 'INSERT', 45123456, NULL, NULL, NULL, '2025-10-13', 'root@localhost'),
+(4, 'Cursos', 'INSERT', NULL, NULL, NULL, 1, '2025-10-13', 'root@localhost'),
+(5, 'Materias', 'INSERT', NULL, NULL, 1, NULL, '2025-10-13', 'root@localhost'),
+(6, 'Materias', 'INSERT', NULL, NULL, 2, NULL, '2025-10-13', 'root@localhost'),
+(7, 'Materias', 'INSERT', NULL, NULL, 3, NULL, '2025-10-13', 'root@localhost'),
+(8, 'Usuarios', 'UPDATE', 45123456, NULL, NULL, NULL, '2025-10-13', 'root@localhost');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cursos`
+-- Table structure for table `cursos`
 --
 
 CREATE TABLE `cursos` (
@@ -75,7 +89,14 @@ CREATE TABLE `cursos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Disparadores `cursos`
+-- Dumping data for table `cursos`
+--
+
+INSERT INTO `cursos` (`ID`, `DNI_Preceptor`, `DNI_Alumno`, `Turno`, `Grupo`, `Anio`, `Division`, `Especialidad`, `Estado`) VALUES
+(1, 40891234, 45123456, 'Mañana', 'A', 5, '1ra', 'Informática', 1);
+
+--
+-- Triggers `cursos`
 --
 DELIMITER $$
 CREATE TRIGGER `aud_cursos_delete` AFTER DELETE ON `cursos` FOR EACH ROW BEGIN
@@ -111,7 +132,31 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `materias`
+-- Table structure for table `inasistencias`
+--
+
+CREATE TABLE `inasistencias` (
+  `ID` int(11) NOT NULL,
+  `DNI_Alumno` int(11) NOT NULL,
+  `Fecha` date NOT NULL,
+  `Tipo` enum('Falta','Tarde','Falta Justificada') NOT NULL DEFAULT 'Falta',
+  `Observaciones` text DEFAULT NULL,
+  `Fecha_Carga` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Dumping data for table `inasistencias`
+--
+
+INSERT INTO `inasistencias` (`ID`, `DNI_Alumno`, `Fecha`, `Tipo`, `Observaciones`, `Fecha_Carga`) VALUES
+(1, 45123456, '2025-10-01', 'Falta', 'Sin justificativo', '2025-10-13 19:29:35'),
+(2, 45123456, '2025-10-05', 'Tarde', 'Llegó 15 minutos tarde', '2025-10-13 19:29:35'),
+(3, 45123456, '2025-10-10', 'Falta Justificada', 'Certificado médico presentado', '2025-10-13 19:29:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materias`
 --
 
 CREATE TABLE `materias` (
@@ -124,7 +169,16 @@ CREATE TABLE `materias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Disparadores `materias`
+-- Dumping data for table `materias`
+--
+
+INSERT INTO `materias` (`ID`, `ID_Curso`, `DNI_Profesor`, `Nombre`, `Horarios`, `Estado`) VALUES
+(1, 1, 39287654, 'Matemática', 'Lunes y Miércoles 8:00-10:00', 1),
+(2, 1, 39287654, 'Programación', 'Martes y Jueves 10:00-12:00', 1),
+(3, 1, 39287654, 'Base de Datos', 'Viernes 8:00-12:00', 1);
+
+--
+-- Triggers `materias`
 --
 DELIMITER $$
 CREATE TRIGGER `aud_materias_delete` AFTER DELETE ON `materias` FOR EACH ROW BEGIN
@@ -160,7 +214,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `notas`
+-- Table structure for table `notas`
 --
 
 CREATE TABLE `notas` (
@@ -173,10 +227,19 @@ CREATE TABLE `notas` (
   `notaFinal` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Dumping data for table `notas`
+--
+
+INSERT INTO `notas` (`dni_alumno`, `id_materia`, `primerInforme`, `primerCuatri`, `segundoInforme`, `segundoCuatri`, `notaFinal`) VALUES
+(45123456, 1, 8, 7, 9, 8, 8),
+(45123456, 2, 9, 9, 10, 9, 9),
+(45123456, 3, 7, 7, 8, 7, 7);
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `preceptor`
+-- Table structure for table `preceptor`
 --
 
 CREATE TABLE `preceptor` (
@@ -184,7 +247,7 @@ CREATE TABLE `preceptor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `preceptor`
+-- Dumping data for table `preceptor`
 --
 
 INSERT INTO `preceptor` (`DNI_Preceptor`) VALUES
@@ -193,7 +256,7 @@ INSERT INTO `preceptor` (`DNI_Preceptor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `profesores`
+-- Table structure for table `profesores`
 --
 
 CREATE TABLE `profesores` (
@@ -201,7 +264,7 @@ CREATE TABLE `profesores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `profesores`
+-- Dumping data for table `profesores`
 --
 
 INSERT INTO `profesores` (`DNI_Profesor`) VALUES
@@ -210,7 +273,7 @@ INSERT INTO `profesores` (`DNI_Profesor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tutores`
+-- Table structure for table `tutores`
 --
 
 CREATE TABLE `tutores` (
@@ -229,7 +292,7 @@ CREATE TABLE `tutores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Disparadores `tutores`
+-- Triggers `tutores`
 --
 DELIMITER $$
 CREATE TRIGGER `aud_tutores_delete` AFTER DELETE ON `tutores` FOR EACH ROW BEGIN
@@ -265,7 +328,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tutor_alumno`
+-- Table structure for table `tutor_alumno`
 --
 
 CREATE TABLE `tutor_alumno` (
@@ -276,7 +339,7 @@ CREATE TABLE `tutor_alumno` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -299,15 +362,16 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
 INSERT INTO `usuarios` (`DNI`, `Primer_nombre`, `Segundo_nombre`, `Apellido`, `Email`, `Password_Usuario`, `Nacionalidad`, `Localidad`, `Calle`, `Altura`, `Fecha_Nacimiento`, `Telefono`, `Rol`, `Estado`, `Fecha_Creacion`, `Usuario`) VALUES
-(39287654, 'Carlos', 'Eduardo', 'Ramírez', 'c.ramirez@docente.edu', NULL, 'Argentina', 'La Plata', 'Calle 12', 876, '1979-11-03', '11 9988 7766', 'Profesor', 1, '2025-09-11 15:26:34', 'root@localhost'),
-(40891234, 'Lucía', 'Marina', 'Fernández', 'lucia.fernandez@educa.ar', NULL, 'Argentina', 'Morón', 'Av. Rivadavia', 12345, '1985-06-14', '11 4567 8910', 'Preceptor', 1, '2025-09-11 15:26:27', 'root@localhost');
+(39287654, 'Carlos', 'Eduardo', 'Ramírez', 'c.ramirez@docente.edu', '$2y$10$MzwUkVumdGaZTDnaYNzSc.t1bi5.52qKomRDA.KIshI7K6gD.MnIO', 'Argentina', 'La Plata', 'Calle 12', 876, '1979-11-03', '11 9988 7766', 'Profesor', 1, '2025-09-11 15:26:34', 'root@localhost'),
+(40891234, 'Lucía', 'Marina', 'Fernández', 'lucia.fernandez@educa.ar', NULL, 'Argentina', 'Morón', 'Av. Rivadavia', 12345, '1985-06-14', '11 4567 8910', 'Preceptor', 1, '2025-09-11 15:26:27', 'root@localhost'),
+(45123456, 'Nicolas', 'Fernando', 'Ferreira', 'nico.ferre@alumno.edu', '$2y$10$D2sub00bm1HMKwLkOE9eQeoFRMBFBEU2AkRsHdxwDWOuHxwFIt08i', 'Argentina', 'San Miguel', 'Belgrano', 1234, '2007-03-15', '11 1234 5678', 'Alumno', 1, '2025-10-13 19:29:06', 'root@localhost');
 
 --
--- Disparadores `usuarios`
+-- Triggers `usuarios`
 --
 DELIMITER $$
 CREATE TRIGGER `aud_usuarios_delete` AFTER DELETE ON `usuarios` FOR EACH ROW BEGIN
@@ -356,23 +420,23 @@ $$
 DELIMITER ;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `alumnos`
+-- Indexes for table `alumnos`
 --
 ALTER TABLE `alumnos`
   ADD PRIMARY KEY (`DNI_Alumno`);
 
 --
--- Indices de la tabla `auditoria`
+-- Indexes for table `auditoria`
 --
 ALTER TABLE `auditoria`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indices de la tabla `cursos`
+-- Indexes for table `cursos`
 --
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`ID`),
@@ -380,7 +444,14 @@ ALTER TABLE `cursos`
   ADD KEY `DNI_Alumno` (`DNI_Alumno`);
 
 --
--- Indices de la tabla `materias`
+-- Indexes for table `inasistencias`
+--
+ALTER TABLE `inasistencias`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `DNI_Alumno` (`DNI_Alumno`);
+
+--
+-- Indexes for table `materias`
 --
 ALTER TABLE `materias`
   ADD PRIMARY KEY (`ID`),
@@ -388,110 +459,122 @@ ALTER TABLE `materias`
   ADD KEY `DNI_Profesor` (`DNI_Profesor`);
 
 --
--- Indices de la tabla `notas`
+-- Indexes for table `notas`
 --
 ALTER TABLE `notas`
   ADD PRIMARY KEY (`dni_alumno`,`id_materia`),
   ADD KEY `id_materia` (`id_materia`);
 
 --
--- Indices de la tabla `preceptor`
+-- Indexes for table `preceptor`
 --
 ALTER TABLE `preceptor`
   ADD PRIMARY KEY (`DNI_Preceptor`);
 
 --
--- Indices de la tabla `profesores`
+-- Indexes for table `profesores`
 --
 ALTER TABLE `profesores`
   ADD PRIMARY KEY (`DNI_Profesor`);
 
 --
--- Indices de la tabla `tutores`
+-- Indexes for table `tutores`
 --
 ALTER TABLE `tutores`
   ADD PRIMARY KEY (`DNI`);
 
 --
--- Indices de la tabla `tutor_alumno`
+-- Indexes for table `tutor_alumno`
 --
 ALTER TABLE `tutor_alumno`
   ADD UNIQUE KEY `DNI_A` (`DNI_A`),
   ADD UNIQUE KEY `DNI_T` (`DNI_T`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`DNI`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `auditoria`
+-- AUTO_INCREMENT for table `auditoria`
 --
 ALTER TABLE `auditoria`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `cursos`
+--
+ALTER TABLE `cursos`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `cursos`
+-- AUTO_INCREMENT for table `inasistencias`
 --
-ALTER TABLE `cursos`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `inasistencias`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `materias`
+-- AUTO_INCREMENT for table `materias`
 --
 ALTER TABLE `materias`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `alumnos`
+-- Constraints for table `alumnos`
 --
 ALTER TABLE `alumnos`
   ADD CONSTRAINT `alumnos_ibfk_1` FOREIGN KEY (`DNI_Alumno`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `cursos`
+-- Constraints for table `cursos`
 --
 ALTER TABLE `cursos`
   ADD CONSTRAINT `cursos_ibfk_1` FOREIGN KEY (`DNI_Preceptor`) REFERENCES `preceptor` (`DNI_Preceptor`),
   ADD CONSTRAINT `cursos_ibfk_2` FOREIGN KEY (`DNI_Alumno`) REFERENCES `alumnos` (`DNI_Alumno`);
 
 --
--- Filtros para la tabla `materias`
+-- Constraints for table `inasistencias`
+--
+ALTER TABLE `inasistencias`
+  ADD CONSTRAINT `inasistencias_ibfk_1` FOREIGN KEY (`DNI_Alumno`) REFERENCES `alumnos` (`DNI_Alumno`);
+
+--
+-- Constraints for table `materias`
 --
 ALTER TABLE `materias`
   ADD CONSTRAINT `materias_ibfk_1` FOREIGN KEY (`ID_Curso`) REFERENCES `cursos` (`ID`),
   ADD CONSTRAINT `materias_ibfk_2` FOREIGN KEY (`DNI_Profesor`) REFERENCES `profesores` (`DNI_Profesor`);
 
 --
--- Filtros para la tabla `notas`
+-- Constraints for table `notas`
 --
 ALTER TABLE `notas`
   ADD CONSTRAINT `notas_ibfk_1` FOREIGN KEY (`dni_alumno`) REFERENCES `alumnos` (`DNI_Alumno`),
   ADD CONSTRAINT `notas_ibfk_2` FOREIGN KEY (`id_materia`) REFERENCES `materias` (`ID`);
 
 --
--- Filtros para la tabla `preceptor`
+-- Constraints for table `preceptor`
 --
 ALTER TABLE `preceptor`
   ADD CONSTRAINT `preceptor_ibfk_1` FOREIGN KEY (`DNI_Preceptor`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `profesores`
+-- Constraints for table `profesores`
 --
 ALTER TABLE `profesores`
   ADD CONSTRAINT `profesores_ibfk_1` FOREIGN KEY (`DNI_Profesor`) REFERENCES `usuarios` (`DNI`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `tutor_alumno`
+-- Constraints for table `tutor_alumno`
 --
 ALTER TABLE `tutor_alumno`
   ADD CONSTRAINT `tutor_alumno_ibfk_1` FOREIGN KEY (`DNI_A`) REFERENCES `alumnos` (`DNI_Alumno`),

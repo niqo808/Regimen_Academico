@@ -25,9 +25,9 @@ $dni_alumno = $_SESSION['DNI'];
         
         <?php
         // Obtener el curso del alumno
-        $query_curso = "SELECT c.*, c.Anio, c.Division, c.Especialidad, c.Turno 
-                        FROM cursos c 
-                        WHERE c.DNI_Alumno = '$dni_alumno' AND c.Estado = 1";
+        $query_curso = "SELECT cursos.ID, cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno 
+                        FROM cursos 
+                        WHERE cursos.DNI_Alumno = '$dni_alumno' AND cursos.Estado = 1";
         $result_curso = mysqli_query($CONN, $query_curso);
         
         if (mysqli_num_rows($result_curso) > 0) {
@@ -41,12 +41,13 @@ $dni_alumno = $_SESSION['DNI'];
             echo "</div>";
             
             // Obtener las materias del curso
-            $query_materias = "SELECT m.*, u.Primer_nombre, u.Apellido 
-                              FROM materias m
-                              INNER JOIN profesores p ON m.DNI_Profesor = p.DNI_Profesor
-                              INNER JOIN usuarios u ON p.DNI_Profesor = u.DNI
-                              WHERE m.ID_Curso = '$id_curso' AND m.Estado = 1
-                              ORDER BY m.Nombre";
+            $query_materias = "SELECT materias.ID, materias.Nombre, materias.Horarios, 
+                              usuarios.Primer_nombre, usuarios.Apellido 
+                              FROM materias
+                              INNER JOIN profesores ON materias.DNI_Profesor = profesores.DNI_Profesor
+                              INNER JOIN usuarios ON profesores.DNI_Profesor = usuarios.DNI
+                              WHERE materias.ID_Curso = '$id_curso' AND materias.Estado = 1
+                              ORDER BY materias.Nombre";
             $result_materias = mysqli_query($CONN, $query_materias);
             
             if (mysqli_num_rows($result_materias) > 0) {

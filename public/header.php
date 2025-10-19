@@ -9,7 +9,7 @@
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<title>Sistemas academico</title>
+    <title>Sistemas academico</title>
 </head>
 <body>
 
@@ -41,6 +41,22 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./mis_materias.php">Mis Materias</a></li>
                             <li><a class="dropdown-item" href="./mis_inasistencias.php">Mis Inasistencias</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="./generar_boletin.php">📄 Mi Boletín</a></li>
+                        </ul>
+                    </li>
+                <?php elseif ($_SESSION['rol'] == 'Profesor'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./mis_materias_profesor.php">Mis Materias</a>
+                    </li>
+                <?php elseif ($_SESSION['rol'] == 'Preceptor'): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="preceptorDropdown" role="button" data-bs-toggle="dropdown">
+                            Gestión de Curso
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./revisar_notas_preceptor.php">Revisar y Aprobar Notas</a></li>
+                            <li><a class="dropdown-item" href="./generar_boletin.php">Generar Boletín</a></li>
                         </ul>
                     </li>
                 <?php else: ?>
@@ -56,7 +72,7 @@
                         </ul>
                     </li>
                 <?php endif; ?>
-        
+                
                 <li class="nav-item">
                     <a class="nav-link" href="./perfil.php">Perfil de <?php echo $_SESSION['nombre1']; ?></a>
                 </li>
@@ -65,15 +81,14 @@
                 </li>
             </ul>
             <?php else: // SESION NO INICIADA?>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-white me-2" href="login.php">Iniciar sesión</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="registro_usuarios.php">Registrarse</a>
-                    </li>
-                </ul>
-
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white me-2" href="login.php">Iniciar sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="registro_usuarios.php">Registrarse</a>
+                </li>
+            </ul>
             <?php endif; ?>
         </div>
     </div>

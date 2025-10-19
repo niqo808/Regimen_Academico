@@ -9,9 +9,8 @@ if (!isset($_SESSION['DNI'])) {
 }
 
 // Obtener todos los datos actualizados del usuario desde la base de datos
-// Es mejor traerlos de nuevo por si algo cambió en lugar de confiar 100% en la sesión
 $dni = $_SESSION['DNI'];
-$query_usuario = "SELECT * FROM usuarios WHERE DNI = '$dni'";
+$query_usuario = "SELECT * FROM usuarios WHERE usuarios.DNI = '$dni'";
 $result_usuario = mysqli_query($CONN, $query_usuario);
 $usuario = mysqli_fetch_assoc($result_usuario);
 
@@ -21,9 +20,9 @@ $rol = $usuario['Rol'];
 
 if ($rol == 'Alumno') {
     // Para un alumno, buscamos su curso actual
-    $query_curso = "SELECT c.Anio, c.Division, c.Especialidad, c.Turno, c.Grupo 
-                    FROM cursos c 
-                    WHERE c.DNI_Alumno = '$dni' AND c.Estado = 1";
+    $query_curso = "SELECT cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno, cursos.Grupo 
+                    FROM cursos 
+                    WHERE cursos.DNI_Alumno = '$dni' AND cursos.Estado = 1";
     $result_curso = mysqli_query($CONN, $query_curso);
     if (mysqli_num_rows($result_curso) > 0) {
         $info_adicional['curso'] = mysqli_fetch_assoc($result_curso);
@@ -31,35 +30,35 @@ if ($rol == 'Alumno') {
     
     // También podríamos contar sus materias
     if (isset($info_adicional['curso'])) {
-        $query_materias = "SELECT COUNT(*) as total FROM materias m
-                          INNER JOIN cursos c ON m.ID_Curso = c.ID
-                          WHERE c.DNI_Alumno = '$dni' AND m.Estado = 1";
+        $query_materias = "SELECT COUNT(*) as total FROM materias
+                          INNER JOIN cursos ON materias.ID_Curso = cursos.ID
+                          WHERE cursos.DNI_Alumno = '$dni' AND materias.Estado = 1";
         $result_materias = mysqli_query($CONN, $query_materias);
         $info_adicional['total_materias'] = mysqli_fetch_assoc($result_materias)['total'];
     }
     
     // Contar inasistencias totales
     $query_inasistencias = "SELECT 
-                              SUM(CASE WHEN Tipo = 'Falta' THEN 1 ELSE 0 END) +
-                              SUM(CASE WHEN Tipo = 'Tarde' THEN 0.5 ELSE 0 END) as total
+                              SUM(CASE WHEN inasistencias.Tipo = 'Falta' THEN 1 ELSE 0 END) +
+                              SUM(CASE WHEN inasistencias.Tipo = 'Tarde' THEN 0.5 ELSE 0 END) as total
                             FROM inasistencias 
-                            WHERE DNI_Alumno = '$dni'";
+                            WHERE inasistencias.DNI_Alumno = '$dni'";
     $result_inasistencias = mysqli_query($CONN, $query_inasistencias);
     $info_adicional['total_inasistencias'] = mysqli_fetch_assoc($result_inasistencias)['total'] ?? 0;
     
 } elseif ($rol == 'Profesor') {
     // Para un profesor, contamos cuántas materias dicta
     $query_materias = "SELECT COUNT(*) as total FROM materias 
-                       WHERE DNI_Profesor = '$dni' AND Estado = 1";
+                       WHERE materias.DNI_Profesor = '$dni' AND materias.Estado = 1";
     $result_materias = mysqli_query($CONN, $query_materias);
     $info_adicional['materias_dictadas'] = mysqli_fetch_assoc($result_materias)['total'];
     
     // También podríamos listar las materias que dicta
-    $query_lista_materias = "SELECT m.Nombre, c.Anio, c.Division 
-                             FROM materias m
-                             INNER JOIN cursos c ON m.ID_Curso = c.ID
-                             WHERE m.DNI_Profesor = '$dni' AND m.Estado = 1
-                             ORDER BY c.Anio, c.Division, m.Nombre";
+    $query_lista_materias = "SELECT materias.Nombre, cursos.Anio, cursos.Division 
+                             FROM materias
+                             INNER JOIN cursos ON materias.ID_Curso = cursos.ID
+                             WHERE materias.DNI_Profesor = '$dni' AND materias.Estado = 1
+                             ORDER BY cursos.Anio, cursos.Division, materias.Nombre";
     $result_lista = mysqli_query($CONN, $query_lista_materias);
     $info_adicional['lista_materias'] = [];
     while ($materia = mysqli_fetch_assoc($result_lista)) {
@@ -68,16 +67,16 @@ if ($rol == 'Alumno') {
     
 } elseif ($rol == 'Preceptor') {
     // Para un preceptor, contamos cuántos cursos tiene a cargo
-    $query_cursos = "SELECT COUNT(DISTINCT ID) as total FROM cursos 
-                     WHERE DNI_Preceptor = '$dni' AND Estado = 1";
+    $query_cursos = "SELECT COUNT(DISTINCT cursos.ID) as total FROM cursos 
+                     WHERE cursos.DNI_Preceptor = '$dni' AND cursos.Estado = 1";
     $result_cursos = mysqli_query($CONN, $query_cursos);
     $info_adicional['cursos_a_cargo'] = mysqli_fetch_assoc($result_cursos)['total'];
     
     // Listar los cursos
-    $query_lista_cursos = "SELECT Anio, Division, Especialidad, Turno 
+    $query_lista_cursos = "SELECT cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno 
                           FROM cursos 
-                          WHERE DNI_Preceptor = '$dni' AND Estado = 1
-                          ORDER BY Anio, Division";
+                          WHERE cursos.DNI_Preceptor = '$dni' AND cursos.Estado = 1
+                          ORDER BY cursos.Anio, cursos.Division";
     $result_lista = mysqli_query($CONN, $query_lista_cursos);
     $info_adicional['lista_cursos'] = [];
     while ($curso = mysqli_fetch_assoc($result_lista)) {
@@ -93,7 +92,6 @@ if ($rol == 'Alumno') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
     <style>
-        /* Algunos estilos personalizados para hacer el perfil más atractivo */
         .profile-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -130,11 +128,9 @@ if ($rol == 'Alumno') {
 </head>
 <body>
     <div class="container mt-4 mb-5">
-        <!-- Encabezado del perfil con diseño atractivo -->
         <div class="profile-header">
             <div class="profile-avatar">
                 <?php 
-                // Mostramos las iniciales del usuario como avatar
                 echo strtoupper(substr($usuario['Primer_nombre'], 0, 1) . substr($usuario['Apellido'], 0, 1)); 
                 ?>
             </div>
@@ -147,7 +143,6 @@ if ($rol == 'Alumno') {
         </div>
 
         <div class="row">
-            <!-- Columna izquierda: Datos personales -->
             <div class="col-md-6">
                 <div class="card info-card">
                     <div class="card-header bg-primary text-white">
@@ -162,7 +157,6 @@ if ($rol == 'Alumno') {
                             <strong>Fecha de Nacimiento:</strong><br>
                             <?php echo date('d/m/Y', strtotime($usuario['Fecha_Nacimiento'])); ?>
                             <?php 
-                            // Calculamos la edad
                             $nacimiento = new DateTime($usuario['Fecha_Nacimiento']);
                             $hoy = new DateTime();
                             $edad = $hoy->diff($nacimiento)->y;
@@ -193,7 +187,6 @@ if ($rol == 'Alumno') {
                 </div>
             </div>
 
-            <!-- Columna derecha: Datos de contacto e información específica del rol -->
             <div class="col-md-6">
                 <div class="card info-card">
                     <div class="card-header bg-info text-white">
@@ -215,7 +208,6 @@ if ($rol == 'Alumno') {
                     </div>
                 </div>
 
-                <!-- Aquí mostramos información específica según el rol del usuario -->
                 <?php if ($rol == 'Alumno' && isset($info_adicional['curso'])): ?>
                     <div class="card info-card">
                         <div class="card-header bg-warning text-dark">
@@ -321,7 +313,6 @@ if ($rol == 'Alumno') {
                     </div>
                 <?php endif; ?>
 
-                <!-- Información de cuenta -->
                 <div class="card info-card">
                     <div class="card-header bg-secondary text-white">
                         <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> Información de Cuenta</h5>
@@ -344,11 +335,8 @@ if ($rol == 'Alumno') {
             </div>
         </div>
 
-        <!-- Botón para volver -->
         <div class="text-center mt-4">
             <a href="home.php" class="btn btn-primary">Volver al Inicio</a>
-            <!-- Aquí podrías agregar un botón para editar perfil en el futuro -->
-            <!-- <a href="editar_perfil.php" class="btn btn-outline-primary">Editar Perfil</a> -->
         </div>
     </div>
 </body>

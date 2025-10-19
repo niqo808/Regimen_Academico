@@ -63,7 +63,7 @@ $dni_alumno = $_SESSION['DNI'];
         echo "</div></div></div>";
         
         echo "<div class='col-md-3'>";
-        echo "<div class='card text-white bg-dark'>";
+        echo "<div class='card text-white bg-secondary'>";
         echo "<div class='card-body'>";
         echo "<h5 class='card-title'>Total</h5>";
         echo "<h2>$total_general</h2>";

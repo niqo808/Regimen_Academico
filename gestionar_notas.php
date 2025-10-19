@@ -84,7 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $query_alumnos = "SELECT usuarios.DNI, usuarios.Primer_nombre, usuarios.Segundo_nombre, usuarios.Apellido,
                   notas.primerInforme, notas.primerCuatri, notas.segundoInforme, notas.segundoCuatri, notas.notaFinal, notas.Estado_Aprobacion
                   FROM cursos
-                  INNER JOIN alumnos ON cursos.DNI_Alumno = alumnos.DNI_Alumno
+                  INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                  INNER JOIN alumnos ON curso_alumno.DNI_Alumno = alumnos.DNI_Alumno
                   INNER JOIN usuarios ON alumnos.DNI_Alumno = usuarios.DNI
                   LEFT JOIN notas ON (alumnos.DNI_Alumno = notas.dni_alumno AND notas.id_materia = '$id_materia')
                   WHERE cursos.Anio = '" . $materia['Anio'] . "' 

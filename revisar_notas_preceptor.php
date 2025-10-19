@@ -40,7 +40,8 @@ $result_cursos = mysqli_query($CONN, $query_cursos);
                     $query_pendientes = "SELECT COUNT(DISTINCT notas.dni_alumno) as total_pendientes
                                         FROM notas
                                         INNER JOIN alumnos ON notas.dni_alumno = alumnos.DNI_Alumno
-                                        INNER JOIN cursos ON alumnos.DNI_Alumno = cursos.DNI_Alumno
+                                        INNER JOIN curso_alumno ON alumnos.DNI_Alumno = curso_alumno.DNI_Alumno
+                                        INNER JOIN cursos ON curso_alumno.ID_Curso = cursos.ID
                                         WHERE cursos.Anio = '" . $curso['Anio'] . "'
                                         AND cursos.Division = '" . $curso['Division'] . "'
                                         AND cursos.Especialidad = '" . $curso['Especialidad'] . "'

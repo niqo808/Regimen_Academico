@@ -85,7 +85,8 @@ if ($es_preceptor && isset($_GET['dni_alumno'])) {
 // Verificar que el alumno pertenezca a un curso del preceptor
 $dni_preceptor = $_SESSION['DNI'];
 $query_verificar = "SELECT COUNT(*) as total FROM cursos
-                   WHERE cursos.DNI_Alumno = '$dni_alumno_ver'
+                   INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                   WHERE curso_alumno.DNI_Alumno = '$dni_alumno_ver'
                    AND cursos.DNI_Preceptor = '$dni_preceptor'
                    AND cursos.Estado = 1";
 $result_verificar = mysqli_query($CONN, $query_verificar);
@@ -100,7 +101,8 @@ $query_alumno = "SELECT usuarios.DNI, usuarios.Primer_nombre, usuarios.Segundo_n
                 cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno
                 FROM usuarios
                 INNER JOIN alumnos ON usuarios.DNI = alumnos.DNI_Alumno
-                INNER JOIN cursos ON alumnos.DNI_Alumno = cursos.DNI_Alumno
+                INNER JOIN curso_alumno ON alumnos.DNI_Alumno = curso_alumno.DNI_Alumno
+                INNER JOIN cursos ON curso_alumno.ID_Curso = cursos.ID
                 WHERE usuarios.DNI = '$dni_alumno_ver' AND cursos.Estado = 1
                 LIMIT 1";
 $result_alumno = mysqli_query($CONN, $query_alumno);
@@ -161,8 +163,13 @@ $total_inasistencias = $total_inasistencias_row['total'] ?? 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boletín Digital - <?php echo htmlspecialchars($alumno['Apellido'] . " " . $alumno['Primer_nombre']); ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style/styles.css">
+        <style>
+            @media print {
+                .navbar, .no-print {
+                    display: none !important;
+                }
+            }
+        </style>
 </head>
 <body>
     <!-- Botones de acción (no se imprimen) -->
@@ -328,6 +335,5 @@ $total_inasistencias = $total_inasistencias_row['total'] ?? 0;
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -28,7 +28,8 @@ $dni_alumno = $_SESSION['DNI'];
         // Obtener el curso del alumno
         $query_curso = "SELECT cursos.ID, cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno 
                         FROM cursos 
-                        WHERE cursos.DNI_Alumno = '$dni_alumno' AND cursos.Estado = 1";
+                        INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                        WHERE curso_alumno.DNI_Alumno = '$dni_alumno' AND cursos.Estado = 1";
         $result_curso = mysqli_query($CONN, $query_curso);
         
         if (mysqli_num_rows($result_curso) > 0) {

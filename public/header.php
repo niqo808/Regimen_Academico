@@ -18,8 +18,8 @@
     <title>Sistema Académico - EEST N°2</title>
 </head>
 <body>
-
-<!-- Header Profesional -->
+ 
+<!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" 
@@ -101,6 +101,8 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="./logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
                     </ul>
+
+
                 </li>
             </ul>
             <?php else: // SESION NO INICIADA?>

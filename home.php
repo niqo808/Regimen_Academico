@@ -29,7 +29,7 @@
                         <i class="fas fa-user-circle fa-5x text-primary"></i>
                     </div>
                     <h1 class="display-4 mb-3">
-                        ¡Bienvenido, <?php echo $_SESSION['nombre1']." ". $_SESSION['apellido']; ?>!
+                        Hola, <?php echo $_SESSION['nombre1']." ". $_SESSION['apellido']; ?>
                     </h1>
                     <p class="lead text-muted mb-4">
                         Sistema Académico EEST N°2 - República Argentina

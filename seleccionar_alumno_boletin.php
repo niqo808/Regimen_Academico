@@ -35,7 +35,8 @@ if (mysqli_fetch_assoc($result_verificar)['total'] == 0) {
 // Obtener alumnos del curso
 $query_alumnos = "SELECT DISTINCT usuarios.DNI, usuarios.Primer_nombre, usuarios.Apellido
                   FROM cursos
-                  INNER JOIN alumnos ON cursos.DNI_Alumno = alumnos.DNI_Alumno
+                  INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                  INNER JOIN alumnos ON curso_alumno.DNI_Alumno = alumnos.DNI_Alumno
                   INNER JOIN usuarios ON alumnos.DNI_Alumno = usuarios.DNI
                   WHERE cursos.Anio = '$anio'
                   AND cursos.Division = '$division'

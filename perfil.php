@@ -22,7 +22,8 @@ if ($rol == 'Alumno') {
     // Para un alumno, buscamos su curso actual
     $query_curso = "SELECT cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno, cursos.Grupo 
                     FROM cursos 
-                    WHERE cursos.DNI_Alumno = '$dni' AND cursos.Estado = 1";
+                    INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                    WHERE curso_alumno.DNI_Alumno = '$dni' AND cursos.Estado = 1";
     $result_curso = mysqli_query($CONN, $query_curso);
     if (mysqli_num_rows($result_curso) > 0) {
         $info_adicional['curso'] = mysqli_fetch_assoc($result_curso);
@@ -32,7 +33,8 @@ if ($rol == 'Alumno') {
     if (isset($info_adicional['curso'])) {
         $query_materias = "SELECT COUNT(*) as total FROM materias
                           INNER JOIN cursos ON materias.ID_Curso = cursos.ID
-                          WHERE cursos.DNI_Alumno = '$dni' AND materias.Estado = 1";
+                          INNER JOIN curso_alumno ON cursos.ID = curso_alumno.ID_Curso
+                          WHERE curso_alumno.DNI_Alumno = '$dni' AND materias.Estado = 1";
         $result_materias = mysqli_query($CONN, $query_materias);
         $info_adicional['total_materias'] = mysqli_fetch_assoc($result_materias)['total'];
     }

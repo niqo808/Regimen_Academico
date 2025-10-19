@@ -17,8 +17,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="./css/styles.css">  carga la hoja de estilo  -->
-    <!--<script src="./Js/script.js" defer></script> carga el javascript  -->
+    <link rel="stylesheet" href="./style/styles.css">
     <title>EEST N°2</title>
 </head>
 <body>

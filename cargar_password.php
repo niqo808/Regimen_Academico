@@ -7,17 +7,14 @@
 	$Nombre = $row['Primer_nombre'];
 	$Apellido = $row['Apellido'];
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 	<head>
-		<title> Carga Password usuario </title>
-	</head>
-	<header>
 		<meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <!--<link rel="stylesheet" href="./css/styles.css">
-	    <script src="./js/script.js"></script> -->
-	    <title>ALTA DE USUARIOS</title>
-	</header>
+	    <link rel="stylesheet" href="./style/styles.css">
+	    <title>Carga Password usuario</title>
+	</head>
 	<body>	
 		<br>
 		<div align="center"> <h1> Registrarse </h1>

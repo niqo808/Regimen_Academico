@@ -91,40 +91,7 @@ if ($rol == 'Alumno') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
-    <style>
-        .profile-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 0 auto 20px;
-            border: 4px solid white;
-        }
-        .info-card {
-            border-left: 4px solid #667eea;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/styles.css">
 </head>
 <body>
     <div class="container mt-4 mb-5">

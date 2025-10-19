@@ -5,17 +5,14 @@ if (isset($_SESSION['error_registro'])){
     unset ($_SESSION['error_registro']);
 }
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 	<head>
-		<title> Cargar registros de usuarios</title>
-	</head>
-	<header>
 		<meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <!--<link rel="stylesheet" href="./css/styles.css">
-	    <script src="./js/script.js"></script> -->
+	    <link rel="stylesheet" href="./style/styles.css">
 	    <title>ALTA DE USUARIOS</title>
-	</header>
+	</head>
 	<body>	
 		<?php 
 		$query = "SELECT * FROM Usuarios";

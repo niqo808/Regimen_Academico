@@ -1,3 +1,7 @@
+/* Archivo de estilos principal - Importa todos los CSS del sistema */
+@import url('main.css');
+
+/* Estilos específicos para la página de inicio */
 body {
   background-color: #f4f4f4;
   font-family: Arial, sans-serif;

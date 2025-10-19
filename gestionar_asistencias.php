@@ -50,21 +50,7 @@ $result_alumnos = mysqli_query($CONN, $query_alumnos);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomar Asistencia</title>
-    <style>
-        .alumno-item {
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #f8f9fa;
-        }
-        .alumno-item:hover {
-            background-color: #e9ecef;
-        }
-        .btn-group-asistencia .btn {
-            width: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/styles.css">
 </head>
 <body>
     <div class="container mt-4">

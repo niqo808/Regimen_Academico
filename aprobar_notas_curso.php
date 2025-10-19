@@ -82,17 +82,7 @@ $result_alumnos = mysqli_query($CONN, $query_alumnos);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aprobar Notas</title>
-    <style>
-        .nota-pendiente {
-            background-color: #fff3cd;
-        }
-        .nota-aprobada {
-            background-color: #d1e7dd;
-        }
-        .tabla-notas th {
-            font-size: 0.85rem;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/styles.css">
 </head>
 <body>
     <div class="container-fluid mt-4">

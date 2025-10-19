@@ -1,0 +1,85 @@
+/* Estilos para gestión de notas */
+.nota-pendiente {
+    background-color: #fff3cd;
+}
+
+.nota-aprobada {
+    background-color: #d1e7dd;
+}
+
+.tabla-notas th {
+    font-size: 0.85rem;
+}
+
+.tabla-notas input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+}
+
+.tabla-notas th {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.tabla-notas td {
+    vertical-align: middle;
+}
+
+/* Estilos para formularios de notas */
+.notas-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.notas-form .form-group {
+    margin-bottom: 15px;
+}
+
+.notas-form label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.notas-form input[type="number"] {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.notas-form input[type="number"]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    outline: none;
+}
+
+/* Estilos para estados de notas */
+.estado-pendiente {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.estado-aprobado {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.estado-rechazado {
+    color: #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}

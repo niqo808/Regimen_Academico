@@ -55,8 +55,10 @@
                             Gestión de Curso
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="./revisar_notas_preceptor.php">Revisar y Aprobar Notas</a></li>
-                            <li><a class="dropdown-item" href="./generar_boletin.php">Generar Boletín</a></li>
+                            <li><a class="dropdown-item" href="./revisar_notas_preceptor.php">📝 Revisar y Aprobar Notas</a></li>
+                            <li><a class="dropdown-item" href="./generar_boletin.php">📄 Generar Boletín</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="./revisar_notas_preceptor.php">📋 Tomar Asistencia por Curso</a></li>
                         </ul>
                     </li>
                 <?php else: ?>

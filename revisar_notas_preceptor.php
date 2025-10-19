@@ -72,10 +72,16 @@ $result_cursos = mysqli_query($CONN, $query_cursos);
                                 <?php endif; ?>
                             </div>
                             <div class="card-footer">
-                                <a href="aprobar_notas_curso.php?anio=<?php echo $curso['Anio']; ?>&division=<?php echo urlencode($curso['Division']); ?>&especialidad=<?php echo urlencode($curso['Especialidad']); ?>&turno=<?php echo urlencode($curso['Turno']); ?>" 
-                                   class="btn btn-primary w-100">
-                                    Revisar Notas
-                                </a>
+                                <div class="btn-group w-100" role="group">
+                                    <a href="aprobar_notas_curso.php?anio=<?php echo $curso['Anio']; ?>&division=<?php echo urlencode($curso['Division']); ?>&especialidad=<?php echo urlencode($curso['Especialidad']); ?>&turno=<?php echo urlencode($curso['Turno']); ?>" 
+                                       class="btn btn-primary">
+                                        📝 Revisar Notas
+                                    </a>
+                                    <a href="tomar_asistencia_curso.php?anio=<?php echo $curso['Anio']; ?>&division=<?php echo urlencode($curso['Division']); ?>&especialidad=<?php echo urlencode($curso['Especialidad']); ?>&turno=<?php echo urlencode($curso['Turno']); ?>" 
+                                       class="btn btn-success">
+                                        📋 Tomar Asistencia
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

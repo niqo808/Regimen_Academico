@@ -2,62 +2,46 @@
 include('./conexion/conexion.php');
 include('./public/header.php');
 
-if (!isset($_SESSION['DNI']) || ($_SESSION['rol'] != 'Profesor' && $_SESSION['rol'] != 'Preceptor')) {
+// Verificar que sea preceptor
+if (!isset($_SESSION['DNI']) || $_SESSION['rol'] != 'Preceptor') {
     header("Location: index.php");
     exit;
 }
 
-$dni_usuario = $_SESSION['DNI'];
-$id_materia = isset($_GET['id_materia']) ? intval($_GET['id_materia']) : null;
+$dni_preceptor = $_SESSION['DNI'];
+$anio = isset($_GET['anio']) ? $_GET['anio'] : null;
+$division = isset($_GET['division']) ? $_GET['division'] : null;
+$especialidad = isset($_GET['especialidad']) ? $_GET['especialidad'] : null;
+$turno = isset($_GET['turno']) ? $_GET['turno'] : null;
 
-if (!$id_materia) {
-    if ($_SESSION['rol'] == 'Profesor') {
-        header("Location: mis_materias_profesor.php");
-    } else {
-        header("Location: revisar_notas_preceptor.php");
-    }
+if (!$anio || !$division || !$especialidad || !$turno) {
+    header("Location: revisar_notas_preceptor.php");
     exit;
 }
 
-// Verificamos permisos según el rol
-if ($_SESSION['rol'] == 'Profesor') {
-    // Para profesores: verificar que la materia pertenezca a este profesor
-    $query_verificar = "SELECT materias.ID, materias.Nombre, materias.Horarios,
-                        cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno
-                        FROM materias
-                        INNER JOIN cursos ON materias.ID_Curso = cursos.ID
-                        WHERE materias.ID = '$id_materia' AND materias.DNI_Profesor = '$dni_usuario'";
-} else {
-    // Para preceptores: verificar que la materia pertenezca a un curso del preceptor
-    $query_verificar = "SELECT materias.ID, materias.Nombre, materias.Horarios,
-                        cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno
-                        FROM materias
-                        INNER JOIN cursos ON materias.ID_Curso = cursos.ID
-                        WHERE materias.ID = '$id_materia' AND cursos.DNI_Preceptor = '$dni_usuario'";
-}
-
+// Verificar que este curso pertenezca a este preceptor
+$query_verificar = "SELECT COUNT(*) as total FROM cursos
+                    WHERE cursos.DNI_Preceptor = '$dni_preceptor'
+                    AND cursos.Anio = '$anio'
+                    AND cursos.Division = '$division'
+                    AND cursos.Especialidad = '$especialidad'
+                    AND cursos.Turno = '$turno'
+                    AND cursos.Estado = 1";
 $result_verificar = mysqli_query($CONN, $query_verificar);
-
-if (mysqli_num_rows($result_verificar) == 0) {
-    if ($_SESSION['rol'] == 'Profesor') {
-        echo "<script>alert('No tienes permiso para acceder a esta materia.'); window.location='mis_materias_profesor.php';</script>";
-    } else {
-        echo "<script>alert('No tienes permiso para acceder a esta materia.'); window.location='revisar_notas_preceptor.php';</script>";
-    }
+if (mysqli_fetch_assoc($result_verificar)['total'] == 0) {
+    echo "<script>alert('No tienes permiso para acceder a este curso.'); window.location='revisar_notas_preceptor.php';</script>";
     exit;
 }
-
-$materia = mysqli_fetch_assoc($result_verificar);
 
 // Obtenemos todos los alumnos del curso
 $query_alumnos = "SELECT usuarios.DNI, usuarios.Primer_nombre, usuarios.Segundo_nombre, usuarios.Apellido
                   FROM cursos
                   INNER JOIN alumnos ON cursos.DNI_Alumno = alumnos.DNI_Alumno
                   INNER JOIN usuarios ON alumnos.DNI_Alumno = usuarios.DNI
-                  WHERE cursos.Anio = '" . $materia['Anio'] . "' 
-                  AND cursos.Division = '" . $materia['Division'] . "'
-                  AND cursos.Especialidad = '" . $materia['Especialidad'] . "'
-                  AND cursos.Turno = '" . $materia['Turno'] . "'
+                  WHERE cursos.Anio = '$anio' 
+                  AND cursos.Division = '$division'
+                  AND cursos.Especialidad = '$especialidad'
+                  AND cursos.Turno = '$turno'
                   AND cursos.Estado = 1
                   ORDER BY usuarios.Apellido, usuarios.Primer_nombre";
 $result_alumnos = mysqli_query($CONN, $query_alumnos);
@@ -68,21 +52,24 @@ $result_alumnos = mysqli_query($CONN, $query_alumnos);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomar Asistencia</title>
+    <title>Tomar Asistencia por Curso</title>
     <link rel="stylesheet" href="./style/styles.css">
 </head>
 <body>
     <div class="container mt-4">
-        <h2><?php echo htmlspecialchars($materia['Nombre']); ?></h2>
+        <h2>Tomar Asistencia - Curso Completo</h2>
         <p class="text-muted">
-            Curso: <?php echo htmlspecialchars($materia['Anio'] . "° " . $materia['Division'] . " - " . $materia['Especialidad']); ?>
-            | Turno: <?php echo htmlspecialchars($materia['Turno']); ?>
+            Curso: <?php echo htmlspecialchars($anio . "° " . $division . " - " . $especialidad); ?>
+            | Turno: <?php echo htmlspecialchars($turno); ?>
         </p>
         <hr>
         
         <?php if (mysqli_num_rows($result_alumnos) > 0): ?>
-            <form method="POST" action="procesar_asistencia.php">
-                <input type="hidden" name="id_materia" value="<?php echo $id_materia; ?>">
+            <form method="POST" action="procesar_asistencia_curso.php">
+                <input type="hidden" name="anio" value="<?php echo $anio; ?>">
+                <input type="hidden" name="division" value="<?php echo $division; ?>">
+                <input type="hidden" name="especialidad" value="<?php echo $especialidad; ?>">
+                <input type="hidden" name="turno" value="<?php echo $turno; ?>">
                 
                 <div class="row mb-3">
                     <div class="col-md-4">
@@ -103,7 +90,7 @@ $result_alumnos = mysqli_query($CONN, $query_alumnos);
                     </div>
                 </div>
                 
-                <h4>Lista de Alumnos</h4>
+                <h4>Lista de Alumnos del Curso</h4>
                 <p class="text-muted">Marca la situación de cada alumno en esta clase:</p>
                 
                 <?php while ($alumno = mysqli_fetch_assoc($result_alumnos)): ?>
@@ -157,21 +144,13 @@ $result_alumnos = mysqli_query($CONN, $query_alumnos);
                 <?php endwhile; ?>
                 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Guardar Asistencia</button>
-                    <?php if ($_SESSION['rol'] == 'Profesor'): ?>
-                        <a href="mis_materias_profesor.php" class="btn btn-secondary btn-lg">Cancelar</a>
-                    <?php else: ?>
-                        <a href="revisar_notas_preceptor.php" class="btn btn-secondary btn-lg">Cancelar</a>
-                    <?php endif; ?>
+                    <button type="submit" class="btn btn-primary btn-lg">Guardar Asistencia del Curso</button>
+                    <a href="revisar_notas_preceptor.php" class="btn btn-secondary btn-lg">Cancelar</a>
                 </div>
             </form>
         <?php else: ?>
             <div class="alert alert-warning">No hay alumnos registrados en este curso.</div>
-            <?php if ($_SESSION['rol'] == 'Profesor'): ?>
-                <a href="mis_materias_profesor.php" class="btn btn-secondary">Volver</a>
-            <?php else: ?>
-                <a href="revisar_notas_preceptor.php" class="btn btn-secondary">Volver</a>
-            <?php endif; ?>
+            <a href="revisar_notas_preceptor.php" class="btn btn-secondary">Volver</a>
         <?php endif; ?>
     </div>
 </body>

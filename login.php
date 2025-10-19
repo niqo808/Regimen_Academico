@@ -25,7 +25,7 @@
         <h1>Iniciar Sesión</h1>
         <br>
         <!-- El action apunta a 'autenticar_login.php' que procesará este formulario -->
-        <form id="loginForm" action="auntenticar_login.php" method="post">
+        <form id="loginForm" action="autenticar_login.php" method="post">
             <div>
                 <label for="gmail">Correo electrónico</label>
                 <input type="text" id="email" name="gmail" required>

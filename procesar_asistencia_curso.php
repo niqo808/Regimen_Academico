@@ -1,21 +1,20 @@
 <?php
 include('./conexion/conexion.php');
 
-if (!isset($_SESSION['DNI']) || ($_SESSION['rol'] != 'Profesor' && $_SESSION['rol'] != 'Preceptor')) {
+if (!isset($_SESSION['DNI']) || $_SESSION['rol'] != 'Preceptor') {
     header("Location: index.php");
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    if ($_SESSION['rol'] == 'Profesor') {
-        header("Location: mis_materias_profesor.php");
-    } else {
-        header("Location: revisar_notas_preceptor.php");
-    }
+    header("Location: revisar_notas_preceptor.php");
     exit;
 }
 
-$id_materia = intval($_POST['id_materia']);
+$anio = $_POST['anio'];
+$division = $_POST['division'];
+$especialidad = $_POST['especialidad'];
+$turno = $_POST['turno'];
 $fecha = $_POST['fecha'];
 $observaciones_generales = !empty($_POST['observaciones_generales']) ? $_POST['observaciones_generales'] : null;
 
@@ -65,8 +64,8 @@ foreach ($_POST['asistencia'] as $dni_alumno => $estado) {
 }
 
 echo "<script>
-        alert('Asistencia guardada correctamente. Registros procesados: $registros_guardados'); 
-        window.location='gestionar_asistencias.php?id_materia=$id_materia';
+        alert('Asistencia del curso guardada correctamente. Registros procesados: $registros_guardados'); 
+        window.location='revisar_notas_preceptor.php';
       </script>";
 exit;
 ?>

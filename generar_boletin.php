@@ -188,7 +188,9 @@ $total_inasistencias = $total_inasistencias_row['total'] ?? 0;
 <div class="boletin-container">
     <!-- Encabezado -->
     <div class="boletin-header">
-        <div class="boletin-logo">E2</div>
+        <div class="boletin-logo">
+            <img src="./imagenes/logo.png" alt="Logo EEST N°2" class="boletin-logo-img">
+        </div>
         <div class="boletin-title">EEST N°2 "República Argentina"</div>
         <div class="boletin-subtitle">Boletín de Calificaciones</div>
         <div class="boletin-subtitle">Ciclo Lectivo <?php echo date('Y'); ?></div>

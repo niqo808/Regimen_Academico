@@ -25,8 +25,8 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="text-center mb-5">
-                    <h1 class="display-4 mb-3">Bienvenido a EEST N°2</h1>
-                    <p class="lead text-muted">Sistema Académico - República Argentina</p>
+                    <h1 class="display-4 mb-3">Bienvenido al Portal Académico</h1>
+                    <p class="lead text-muted">EEEST N°2 - República Argentina</p>
                 </div>
                 
                 <div class="row justify-content-center">

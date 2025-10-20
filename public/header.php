@@ -14,7 +14,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="./style/styles.css">
+    <link rel="stylesheet" href="./style/styles.css?v=<?php echo time(); ?>">
     <title>Sistema Académico - EEST N°2</title>
 </head>
 <body>
@@ -30,8 +30,8 @@
                     echo 'href="./home.php"';
                 }
             ?>>
-            <div class="brand-icon me-2">
-                <i class="fas fa-graduation-cap"></i>
+            <div class="brand-icon">
+                <img src="./imagenes/logo.png" alt="Logo EEST N°2" class="logo-img">
             </div>
             <div class="brand-text">
                 <div class="brand-title">EEST N°2</div>

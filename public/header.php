@@ -74,6 +74,7 @@
                             <li><a class="dropdown-item" href="./revisar_notas_preceptor.php"><i class="fas fa-check-circle me-2"></i>Revisar y Aprobar Notas</a></li>
                             <li><a class="dropdown-item" href="./generar_boletin.php"><i class="fas fa-file-alt me-2"></i>Generar Boletín</a></li>
                             <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="./importar_alumnos.php"><i class="fas fa-file-import me-2"></i>Importar alumnos</a></li>
                             <li><a class="dropdown-item" href="./revisar_notas_preceptor.php"><i class="fas fa-clipboard-check me-2"></i>Tomar Asistencia por Curso</a></li>
                         </ul>
                     </li>

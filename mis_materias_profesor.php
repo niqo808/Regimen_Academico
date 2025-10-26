@@ -26,23 +26,12 @@ $dni_profesor = $_SESSION['DNI'];
         <br>
         
         <?php
-        // Consulta para obtener todas las materias del profesor
-        // Primero obtenemos la información básica de cada materia
-        $query_materias = "SELECT materias.ID, materias.Nombre, materias.Horarios, 
-                          cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno,
-                          COUNT(DISTINCT notas.dni_alumno) as alumnos_con_notas,
-                          (SELECT COUNT(*) FROM cursos AS cursos2 
-                           WHERE cursos2.Anio = cursos.Anio 
-                           AND cursos2.Division = cursos.Division 
-                           AND cursos2.Especialidad = cursos.Especialidad 
-                           AND cursos2.Turno = cursos.Turno 
-                           AND cursos2.Estado = 1) as total_alumnos
+        // Consulta SIMPLE: solo obtener las materias del profesor
+        $query_materias = "SELECT materias.ID, materias.Nombre, materias.Horarios, materias.ID_Curso,
+                          cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno
                           FROM materias
                           INNER JOIN cursos ON materias.ID_Curso = cursos.ID
-                          LEFT JOIN notas ON materias.ID = notas.id_materia
                           WHERE materias.DNI_Profesor = '$dni_profesor' AND materias.Estado = 1
-                          GROUP BY materias.ID, materias.Nombre, materias.Horarios, 
-                                   cursos.Anio, cursos.Division, cursos.Especialidad, cursos.Turno
                           ORDER BY cursos.Anio, cursos.Division, materias.Nombre";
         
         $result_materias = mysqli_query($CONN, $query_materias);
@@ -51,6 +40,24 @@ $dni_profesor = $_SESSION['DNI'];
             echo "<div class='row'>";
             
             while ($materia = mysqli_fetch_assoc($result_materias)) {
+                $id_materia = $materia['ID'];
+                $id_curso = $materia['ID_Curso'];
+                
+                // AHORA SÍ: Contar ALUMNOS en este curso específico (en la tabla curso_alumno)
+                $query_total_alumnos = "SELECT COUNT(*) as total
+                                       FROM curso_alumno
+                                       WHERE curso_alumno.ID_Curso = '$id_curso' 
+                                       AND curso_alumno.Estado = 1";
+                $result_total = mysqli_query($CONN, $query_total_alumnos);
+                $total_alumnos = mysqli_fetch_assoc($result_total)['total'];
+                
+                // Contar cuántos alumnos TIENEN NOTAS en esta materia específica
+                $query_con_notas = "SELECT COUNT(DISTINCT notas.dni_alumno) as con_notas
+                                   FROM notas
+                                   WHERE notas.id_materia = '$id_materia'";
+                $result_con_notas = mysqli_query($CONN, $query_con_notas);
+                $alumnos_con_notas = mysqli_fetch_assoc($result_con_notas)['con_notas'];
+                
                 echo "<div class='col-md-6 col-lg-4 mb-4'>";
                 echo "<div class='card h-100 shadow-sm'>";
                 echo "<div class='card-header bg-primary text-white'>";
@@ -64,11 +71,11 @@ $dni_profesor = $_SESSION['DNI'];
                 echo "<p class='mb-2'><strong>Horarios:</strong> " . htmlspecialchars($materia['Horarios']) . "</p>";
                 
                 echo "<hr>";
-                echo "<p class='mb-2'><strong>Alumnos en el curso:</strong> " . $materia['total_alumnos'] . "</p>";
+                echo "<p class='mb-2'><strong>Alumnos en el curso:</strong> " . $total_alumnos . "</p>";
                 
-                $porcentaje = $materia['total_alumnos'] > 0 ? 
-                    round(($materia['alumnos_con_notas'] / $materia['total_alumnos']) * 100) : 0;
-                echo "<small class='text-muted'>Notas cargadas: " . $materia['alumnos_con_notas'] . "/" . $materia['total_alumnos'] . "</small>";
+                $porcentaje = $total_alumnos > 0 ? 
+                    round(($alumnos_con_notas / $total_alumnos) * 100) : 0;
+                echo "<small class='text-muted'>Notas cargadas: " . $alumnos_con_notas . "/" . $total_alumnos . "</small>";
                 echo "<div class='progress' style='height: 20px;'>";
                 echo "<div class='progress-bar' role='progressbar' style='width: {$porcentaje}%' aria-valuenow='{$porcentaje}' aria-valuemin='0' aria-valuemax='100'>{$porcentaje}%</div>";
                 echo "</div>";

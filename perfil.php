@@ -154,6 +154,25 @@ if ($rol == 'Alumno') {
                         </div>
                     </div>
                 </div>
+                <div class="card info-card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> Información de Cuenta</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong>Usuario desde:</strong><br>
+                            <?php echo date('d/m/Y', strtotime($usuario['Fecha_Creacion'])); ?>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Estado de cuenta:</strong><br>
+                            <?php if ($usuario['Estado'] == 1): ?>
+                                <span class="badge bg-success">Activa</span>
+                            <?php else: ?>
+                                <span class="badge bg-danger">Inactiva</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6">
@@ -282,25 +301,6 @@ if ($rol == 'Alumno') {
                     </div>
                 <?php endif; ?>
 
-                <div class="card info-card">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> Información de Cuenta</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <strong>Usuario desde:</strong><br>
-                            <?php echo date('d/m/Y', strtotime($usuario['Fecha_Creacion'])); ?>
-                        </div>
-                        <div class="mb-3">
-                            <strong>Estado de cuenta:</strong><br>
-                            <?php if ($usuario['Estado'] == 1): ?>
-                                <span class="badge bg-success">Activa</span>
-                            <?php else: ?>
-                                <span class="badge bg-danger">Inactiva</span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

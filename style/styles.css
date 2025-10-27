@@ -541,6 +541,493 @@ img {
 }
 
 /* ============================================
+   MÓDULO: LOGIN MODERNO
+   ============================================ */
+.login-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    max-width: 450px;
+    width: 100%;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.login-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.login-header .logo-circle {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #667eea;
+    font-weight: bold;
+}
+
+.login-body {
+    padding: 2.5rem 2rem;
+}
+
+.input-group-custom {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group-custom .icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+    font-size: 1.2rem;
+}
+
+.input-group-custom input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group-custom input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    position: relative;
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+.btn-register {
+    width: 100%;
+    padding: 0.875rem;
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-register:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.help-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.help-text a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.help-text a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   MÓDULO: REGISTRO EN 2 PASOS
+   ============================================ */
+.registro-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.registro-card {
+    max-width: 550px;
+    width: 100%;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.registro-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.registro-header .icon {
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #10b981;
+}
+
+.registro-body {
+    padding: 2.5rem 2rem;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.step-indicator::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    background: #e2e8f0;
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-circle {
+    background: #10b981;
+    color: white;
+}
+
+.step.completed .step-circle {
+    background: #10b981;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    color: #94a3b8;
+}
+
+.step.active .step-label {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.input-group-registro {
+    margin-bottom: 1.5rem;
+}
+
+.input-group-registro label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.input-group-registro input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group-registro input:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-group-registro .help-text {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+    text-align: left;
+}
+
+.user-info-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 2px solid #10b981;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-info-card h4 {
+    color: #059669;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.user-info-card h4 i {
+    margin-right: 0.5rem;
+}
+
+.user-info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #a7f3d0;
+}
+
+.user-info-item:last-child {
+    border-bottom: none;
+}
+
+.user-info-label {
+    font-weight: 600;
+    color: #065f46;
+}
+
+.user-info-value {
+    color: #047857;
+}
+
+.btn-registro {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.btn-registro:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-secundario {
+    width: 100%;
+    padding: 0.875rem;
+    background: white;
+    color: #10b981;
+    border: 2px solid #10b981;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-secundario:hover {
+    background: #10b981;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.password-requirements {
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.password-requirements h5 {
+    font-size: 0.875rem;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.password-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.password-requirements li {
+    font-size: 0.875rem;
+    color: #64748b;
+    padding: 0.25rem 0;
+}
+
+.password-requirements li::before {
+    content: "✓ ";
+    color: #10b981;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+/* ============================================
+   MÓDULO: IMPORTACIÓN CSV
+   ============================================ */
+.vista-previa {
+    display: none;
+    margin-bottom: 1.5rem;
+}
+
+.vista-previa.show {
+    display: block;
+}
+
+/* Sticky header en tablas de errores */
+.table-responsive {
+    position: relative;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Estadísticas de importación */
+.stat-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 0.5rem;
+    margin-bottom: 15px;
+    background: #f8fafc;
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* Progress bar mejorada */
+.progress {
+    height: 30px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: width 0.6s ease;
+}
+
+/* Animación para tarjetas */
+.card.shadow-lg {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ============================================
+   FIX: Input file personalizado
+   ============================================ */
+input[type="file"] {
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+
+/* ============================================
    ESTILOS ESPECÍFICOS - BOLETÍN
    ============================================ */
 @media print {
@@ -737,6 +1224,8 @@ boletin-logo-img {
     border-top: 1px solid #e2e8f0;
 }
 
+
+
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
@@ -759,6 +1248,36 @@ boletin-logo-img {
     
     h1 {
         font-size: 2rem;
+    }
+
+
+    .login-container,
+    .registro-container {
+        padding: 1rem;
+    }
+    
+    .login-card,
+    .registro-card {
+        margin: 1rem;
+    }
+    
+    .login-header,
+    .registro-header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .login-body,
+    .registro-body {
+        padding: 1.5rem 1rem;
+    }
+    
+    .step-indicator::before {
+        left: 20%;
+        right: 20%;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.5rem;
     }
 }
 

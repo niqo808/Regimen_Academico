@@ -115,7 +115,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light btn-sm ms-2" href="registro_usuarios.php">
+                    <a class="nav-link d-flex align-items-center" href="registro_usuarios.php">
                         <i class="fas fa-user-plus me-1"></i>
                         Registrarse
                     </a>

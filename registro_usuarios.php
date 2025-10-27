@@ -339,7 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['registrar_usuario'])) 
                     <i class="fas fa-user-plus"></i>
                 </div>
                 <h2 class="mb-2">Crear Cuenta</h2>
-                <p class="mb-0">Completa tu registro escolar</p>
+                <p class="mb-0" id="registro-subtitulo">Completa tu registro escolar</p>
             </div>
             
             <div class="registro-body">

@@ -21,8 +21,8 @@
     <title>Dashboard - EEST N°2</title>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
+    <div class="container" >
+        <div class="row" data-aos="fade-up">
             <div class="col-12">
                 <div class="welcome-section text-center py-5">
                     <div class="welcome-icon mb-4">

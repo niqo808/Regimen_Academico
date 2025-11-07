@@ -1,0 +1,7 @@
+DNI,Primer_Nombre,Segundo_Nombre,Apellido,Email,Fecha_Nacimiento,Nacionalidad,Localidad,Calle,Altura,Telefono
+123,Ana,María,Silva,ana.silva@alumno.edu,2007-01-15,Argentina,San Miguel,Mitre,1234,11 1111 1111
+45999999,Carlos,,Gómez,email-invalido,2007-02-20,Argentina,San Miguel,San Martín,2345,11 2222 2222
+45999998,Laura,Patricia,Díaz,laura.diaz@alumno.edu,15/03/2007,Argentina,San Miguel,Belgrano,3456,11 3333 3333
+45999997,,José,Ruiz,jose.ruiz@alumno.edu,2007-04-25,Argentina,San Miguel,Rivadavia,4567,11 4444 4444
+45999996,Diego,Martín,Castro,diego.castro@alumno.edu,2007-05-30,Argentina,San Miguel,Sarmiento,ABC,11 5555 5555
+45123456,Nico,Fernando,Ferreira,nico.repetido@alumno.edu,2007-06-10,Argentina,San Miguel,Moreno,5678,11 6666 6666

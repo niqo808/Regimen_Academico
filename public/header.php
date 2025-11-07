@@ -20,7 +20,7 @@
 <body>
  
 <!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-custom" data-aos="fade-down">
+<nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" 
             <?php 

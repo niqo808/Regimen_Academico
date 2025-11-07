@@ -462,7 +462,7 @@ img {
    ESTILOS ESPECÍFICOS - PERFIL
    ============================================ */
 .profile-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(291deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 40px 20px;
     border-radius: var(--border-radius);
@@ -548,6 +548,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 2rem 0;
 }
 
 .login-card {
@@ -560,7 +561,7 @@ img {
 }
 
 .login-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(291deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     padding: 2.5rem 2rem;
     text-align: center;
     color: white;
@@ -576,7 +577,7 @@ img {
     align-items: center;
     justify-content: center;
     font-size: 2.5rem;
-    color: #667eea;
+    color: var(--primary-color);
     font-weight: bold;
 }
 
@@ -594,7 +595,7 @@ img {
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #667eea;
+    color: var(--primary-color);
     font-size: 1.2rem;
 }
 
@@ -609,14 +610,14 @@ img {
 
 .input-group-custom input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .btn-login {
     width: 100%;
     padding: 0.875rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(291deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -660,8 +661,8 @@ img {
     width: 100%;
     padding: 0.875rem;
     background: white;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary-color);
     border-radius: 0.5rem;
     font-size: 1rem;
     font-weight: 600;
@@ -673,7 +674,7 @@ img {
 }
 
 .btn-register:hover {
-    background: #667eea;
+    background: var(--primary-color);
     color: white;
     transform: translateY(-2px);
 }
@@ -686,7 +687,7 @@ img {
 }
 
 .help-text a {
-    color: #667eea;
+    color: var(--primary-dark);
     text-decoration: none;
     font-weight: 600;
 }
@@ -1010,7 +1011,7 @@ input[type="file"] {
 }
 
 input[type="file"]::file-selector-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(291deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -1057,7 +1058,7 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .boletin-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(291deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     padding: 30px;
     text-align: center;
@@ -1194,7 +1195,7 @@ boletin-logo-img {
 .resumen-valor {
     font-size: 24px;
     font-weight: bold;
-    color: #667eea;
+    color: var(--primary-color)
 }
 
 .estado-badge {

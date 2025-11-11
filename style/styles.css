@@ -57,34 +57,8 @@
 
 
 /* =============================================
-   APLICACIÓN GLOBAL DEL TEMA
+   APLICACIÓN GLOBAL DEL TEMA (ELIMINADAS REGLAS REDUNDANTES)
    ============================================= */
-
-/* Aplicación al body para cambiar el fondo y el color de texto de todo el sistema */
-body {
-    background-color: var(--system-bg);
-    color: var(--system-text);
-    /* Transición suave para evitar un cambio brusco */
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Aplicación a contenedores comunes de Bootstrap (card, modals, etc.) */
-.card, 
-.modal-content, 
-.offcanvas, 
-.list-group-item,
-/* Agrega aquí cualquier otro elemento que necesite cambiar de fondo */
-.bg-light,
-.bg-white { 
-    background-color: var(--system-card-bg) !important;
-    color: var(--system-text);
-    border-color: var(--system-border);
-}
-
-/* Ajuste de texto para enlaces y botones que usen var(--dark-color) */
-a, .text-dark {
-    color: var(--system-text) !important;
-}
 
 /* ============================================
    NAVBAR Y HEADER - Optimizado + Dark Mode
@@ -259,25 +233,6 @@ body:not(.dark-mode) .navbar-custom .theme-toggle { color: #fff; }
    - Si querés usarlo, reemplaza el HTML inside button with a small <span class="switch">...</span>
    - Mantengo el diseño con icon swapping porque es simple y consistente. */
 
-/* === Dark theme variables override (examples) ===
-   If your main CSS uses colors directly, complement them here.
-   Prefer adding broader dark rules in your main stylesheet, but these help header/nav.
-*/
-
-@media (prefers-color-scheme: dark){
-  /* prefer system dark */
-  .navbar-custom { background: rgba(15,23,42,0.9); border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .navbar-brand, .navbar-nav .nav-link { color: #e6eef8 !important; }
-}
-
-/* manual override (when user chooses dark) */
-html.dark-mode .navbar-custom,
-body.dark-mode .navbar-custom { background: rgba(15,23,42,0.9); border-bottom: 1px solid rgba(255,255,255,0.06); }
-html.dark-mode .navbar-brand,
-body.dark-mode .navbar-brand,
-html.dark-mode .navbar-nav .nav-link,
-body.dark-mode .navbar-nav .nav-link { color: #e6eef8 !important; }
-
 /* end theme toggle CSS */
 
 
@@ -347,8 +302,9 @@ h1 {
 }
 
 /* ============================================
-   BOTONES
+   BOTONES - Estilos generales consolidados
    ============================================ */
+/* Base compartida para todos los tipos de botones */
 .btn {
     display: inline-block;
     font-weight: 500;
@@ -1146,13 +1102,13 @@ img {
     z-index: 10;
 }
 
-/* Estadísticas de importación */
+/* Estadísticas de importación - CONSOLIDADO */
 .stat-card {
     text-align: center;
     padding: 20px;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     margin-bottom: 15px;
-    background: #f8fafc;
+    background: var(--light-color);
 }
 
 .stat-card h3 {
@@ -1160,7 +1116,9 @@ img {
     font-size: 2rem;
 }
 
-/* Progress bar mejorada */
+/* ============================================
+   UTILIDADES - Animaciones, Progress, File Input
+   ============================================ */
 .progress {
     height: 30px;
     border-radius: 0.5rem;
@@ -1176,15 +1134,10 @@ img {
     transition: width 0.6s ease;
 }
 
-/* Animación para tarjetas */
 .card.shadow-lg {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
-
-/* ============================================
-   FIX: Input file personalizado
-   ============================================ */
 input[type="file"] {
     cursor: pointer;
 }
@@ -1257,11 +1210,11 @@ input[type="file"]::file-selector-button:hover {
     color: #2563eb;
 }
 
-boletin-logo-img { 
-    width:70px; 
-    height:auto; 
-    object-fit:contain;
- }
+.boletin-logo-img { 
+    width: 70px; 
+    height: auto; 
+    object-fit: contain;
+}
 
 .boletin-title {
     font-size: 24px;
@@ -1462,7 +1415,7 @@ boletin-logo-img {
 }
 
 /* ============================================
-   ANIMACIONES
+   ANIMACIONES Y EFECTOS
    ============================================ */
 @keyframes fadeIn {
     from {
@@ -1473,6 +1426,46 @@ boletin-logo-img {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .fade-in {
@@ -1632,28 +1625,6 @@ boletin-logo-img {
     }
     60% {
         transform: translateX(-50%) translateY(-5px);
-    }
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 

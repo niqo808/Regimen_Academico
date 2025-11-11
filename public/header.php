@@ -4,6 +4,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Inicializa tema antes de cargar CSS para evitar flash -->
+<script>
+(function(){
+  try{
+    const KEY = 'regimen-theme'; // clave en localStorage
+    const stored = localStorage.getItem(KEY); // 'dark'|'light'|null
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    // Aplicar clase sobre el elemento root (html) — rápido y seguro antes del body
+    if(theme === 'dark') document.documentElement.classList.add('dark-mode');
+    else document.documentElement.classList.remove('dark-mode');
+    // guardamos el estado detectado (si no había almacenado, lo dejamos en null => auto)
+    // pero NO sobreescribimos localStorage aquí; sólo respetamos stored if exists
+  } catch(e){}
+})();
+</script>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap 5 CDN -->
@@ -17,6 +36,55 @@
     <link rel="stylesheet" href="./style/styles.css?v=<?php echo time(); ?>">
     <title>Sistema Académico - EEST N°2</title>
 </head>
+<script>
+(function(){
+  const KEY = 'regimen-theme'; // same key as inline script
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+
+  // helper to apply theme (adds/removes class on root)
+  function applyTheme(name){
+    if(name === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+      document.body && document.body.classList && document.body.classList.add('dark-mode');
+      btn.setAttribute('aria-pressed','true');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      document.body && document.body.classList && document.body.classList.remove('dark-mode');
+      btn.setAttribute('aria-pressed','false');
+    }
+  }
+
+  // init from localStorage (if exists). If null => prefer system (do nothing)
+  const stored = localStorage.getItem(KEY); // 'dark'|'light'|null
+  if(stored === 'dark' || stored === 'light'){
+    applyTheme(stored);
+  } // else we rely on initial inline script which set class based on system
+
+  // clicking toggles between dark / light (manual override)
+  btn.addEventListener('click', function(){
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    const next = isDark ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(KEY, next);
+  });
+
+  // Listen to system preference changes but DO NOT override a user choice
+  if(window.matchMedia){
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener ? mq.addEventListener('change', e => {
+      const stored = localStorage.getItem(KEY);
+      if(stored === null) { // only if user hasn't manually set theme
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    }) : mq.addListener(e => {
+      const stored = localStorage.getItem(KEY);
+      if(stored === null) applyTheme(e.matches ? 'dark' : 'light');
+    });
+  }
+})();
+</script>
+
 <body>
  
 <!-- Header -->
@@ -44,6 +112,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <?php if (isset($_SESSION['nombre1'])):  // SESION INICIADA ?>
             <ul class="navbar-nav ms-auto">
+                <!-- Theme toggle: pegar en el navbar (ej: dentro de .navbar-custom) -->
+                <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">
+                <span class="theme-toggle__icons" aria-hidden="true">
+                    <!-- Moon (dark) -->
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+                    </svg>
+                    <!-- Sun (light) -->
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4V2M12 22v-2M20 12h2M2 12h2M18.36 5.64l1.41-1.41M4.22 19.78l1.41-1.41M18.36 18.36l1.41 1.41M4.22 4.22l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="sr-only">Alternar modo oscuro</span>
+                </button>
+
                 <?php if ($_SESSION['rol'] == 'Alumno'): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="alumnoDropdown" role="button" data-bs-toggle="dropdown">
@@ -108,6 +192,21 @@
             </ul>
             <?php else: // SESION NO INICIADA?>
             <ul class="navbar-nav ms-auto">
+                <!-- Theme toggle: pegar en el navbar (ej: dentro de .navbar-custom) -->
+                <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Alternar tema">
+                <span class="theme-toggle__icons" aria-hidden="true">
+                    <!-- Moon (dark) -->
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+                    </svg>
+                    <!-- Sun (light) -->
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4V2M12 22v-2M20 12h2M2 12h2M18.36 5.64l1.41-1.41M4.22 19.78l1.41-1.41M18.36 18.36l1.41 1.41M4.22 4.22l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="sr-only">Alternar modo oscuro</span>
+                </button>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="login.php">
                         <i class="fas fa-sign-in-alt me-2"></i>
@@ -127,4 +226,31 @@
 </nav>
 
 </body>
+<!-- Script para el toggle de tema -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const KEY = 'regimen-theme';
+  const toggleBtn = document.getElementById('themeToggle');
+
+  if (!toggleBtn) return;
+
+  toggleBtn.addEventListener('click', () => {
+    const current = localStorage.getItem(KEY);
+    const newTheme = current === 'dark' ? 'light' : 'dark';
+
+    // Guardar nuevo tema
+    localStorage.setItem(KEY, newTheme);
+
+    // Aplicar clase al <html>
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
+
+    // Actualizar estado del botón (opcional)
+    toggleBtn.setAttribute('aria-pressed', newTheme === 'dark');
+  });
+});
+</script>
 </html>

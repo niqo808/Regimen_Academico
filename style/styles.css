@@ -3,6 +3,7 @@
    Importa todos los módulos CSS del sistema
    ============================================ */
 
+
 /* Variables globales del sistema */
 :root {
     /* Colores principales */
@@ -26,6 +27,25 @@
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* =============================================
+   TEMA OSCURO - Aplicado a html.dark-mode
+   ============================================= */
+:root.dark-mode {
+    /* Inversión de Colores del Tema */
+    --system-bg: #0f172a;       /* Fondo principal muy oscuro */
+    --system-text: #f1f5f9;     /* Texto principal muy claro */
+    --system-card-bg: #1e293b;  /* Fondo de tarjetas/contenedores oscuro */
+    --system-border: #334155;   /* Borde más oscuro */
+
+    /* Puedes invertir también las principales si se usan en otros sitios */
+    --light-color: #1e293b;
+    --dark-color: #f8fafc; 
+
+    /* Ajuste de colores primarios para mejor visibilidad */
+    --primary-color: #3b82f6; 
+    --primary-dark: #2563eb;
+}
+
 /* ============================================
    RESET Y CONFIGURACIÓN BASE
    ============================================ */
@@ -35,12 +55,35 @@
     padding: 0;
 }
 
+
+/* =============================================
+   APLICACIÓN GLOBAL DEL TEMA
+   ============================================= */
+
+/* Aplicación al body para cambiar el fondo y el color de texto de todo el sistema */
 body {
-    font-family: var(--font-family);
-    line-height: 1.6;
-    color: var(--dark-color);
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    min-height: 100vh;
+    background-color: var(--system-bg);
+    color: var(--system-text);
+    /* Transición suave para evitar un cambio brusco */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Aplicación a contenedores comunes de Bootstrap (card, modals, etc.) */
+.card, 
+.modal-content, 
+.offcanvas, 
+.list-group-item,
+/* Agrega aquí cualquier otro elemento que necesite cambiar de fondo */
+.bg-light,
+.bg-white { 
+    background-color: var(--system-card-bg) !important;
+    color: var(--system-text);
+    border-color: var(--system-border);
+}
+
+/* Ajuste de texto para enlaces y botones que usen var(--dark-color) */
+a, .text-dark {
+    color: var(--system-text) !important;
 }
 
 /* ============================================
@@ -223,7 +266,6 @@ body:not(.dark-mode) .navbar-custom .theme-toggle { color: #fff; }
 
 @media (prefers-color-scheme: dark){
   /* prefer system dark */
-  :root { /* optionally override some colors if you use CSS vars */ }
   .navbar-custom { background: rgba(15,23,42,0.9); border-bottom: 1px solid rgba(255,255,255,0.06); }
   .navbar-brand, .navbar-nav .nav-link { color: #e6eef8 !important; }
 }
@@ -2168,5 +2210,850 @@ section {
 
     section {
         padding: 3rem 0;
+    }
+}
+
+
+/* ============================================
+   DARK MODE - Variables y Estilos Completos
+   Agregar al FINAL de styles.css
+   ============================================ */
+
+/* Variables para modo oscuro */
+html.dark-mode {
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary-color: #94a3b8;
+    --success-color: #10b981;
+    --warning-color: #fbbf24;
+    --danger-color: #f87171;
+    --info-color: #22d3ee;
+    --light-color: #1e293b;
+    --dark-color: #f1f5f9;
+    --border-color: #334155;
+    
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Transiciones suaves para el cambio de tema */
+html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark-mode * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ========== BODY Y FONDOS ========== */
+html.dark-mode body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--text-primary);
+}
+
+/* ========== NAVBAR ========== */
+html.dark-mode .navbar-custom {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+html.dark-mode .navbar-brand,
+html.dark-mode .navbar-nav .nav-link {
+    color: var(--text-primary) !important;
+}
+
+html.dark-mode .navbar-nav .nav-link:hover {
+    background-color: rgba(51, 65, 85, 0.5);
+    color: #fff !important;
+}
+
+html.dark-mode .navbar-nav .dropdown-menu {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+html.dark-mode .navbar-nav .dropdown-item {
+    color: var(--text-secondary);
+}
+
+html.dark-mode .navbar-nav .dropdown-item:hover {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+html.dark-mode .dropdown-divider {
+    border-color: var(--border-color);
+}
+
+/* ========== BOTÓN DE TOGGLE ========== */
+html.dark-mode .theme-toggle {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: var(--text-primary);
+}
+
+html.dark-mode .theme-toggle:hover {
+    background: rgba(51, 65, 85, 0.8);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Mostrar icono correcto según el tema */
+html.dark-mode .theme-toggle .icon-sun {
+    display: none;
+}
+
+html.dark-mode .theme-toggle .icon-moon {
+    display: inline-block;
+}
+
+html:not(.dark-mode) .theme-toggle .icon-sun {
+    display: inline-block;
+}
+
+html:not(.dark-mode) .theme-toggle .icon-moon {
+    display: none;
+}
+
+/* ========== TARJETAS (CARDS) ========== */
+html.dark-mode .card {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .card-header {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+html.dark-mode .card-body {
+    background: var(--bg-secondary);
+}
+
+html.dark-mode .card-footer {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+}
+
+/* ========== FORMULARIOS ========== */
+html.dark-mode .form-control,
+html.dark-mode .form-select,
+html.dark-mode input[type="text"],
+html.dark-mode input[type="email"],
+html.dark-mode input[type="password"],
+html.dark-mode input[type="number"],
+html.dark-mode input[type="date"],
+html.dark-mode textarea {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .form-control:focus,
+html.dark-mode input:focus,
+html.dark-mode textarea:focus {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+html.dark-mode .form-label {
+    color: var(--text-primary);
+}
+
+html.dark-mode .form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* ========== TABLAS ========== */
+html.dark-mode .table {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+html.dark-mode .table th,
+html.dark-mode .table td {
+    border-bottom-color: var(--border-color);
+}
+
+html.dark-mode .table thead th {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    color: white;
+}
+
+html.dark-mode .table tbody tr:hover {
+    background-color: var(--bg-tertiary);
+}
+
+html.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(51, 65, 85, 0.3);
+}
+
+html.dark-mode .table-bordered {
+    border-color: var(--border-color);
+}
+
+/* ========== ALERTAS ========== */
+html.dark-mode .alert {
+    border-color: var(--border-color);
+}
+
+html.dark-mode .alert-success {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    color: #a7f3d0;
+}
+
+html.dark-mode .alert-warning {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+    color: #fde68a;
+}
+
+html.dark-mode .alert-danger {
+    background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+    color: #fecaca;
+}
+
+html.dark-mode .alert-info {
+    background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+    color: #bae6fd;
+}
+
+/* ========== BOTONES ========== */
+html.dark-mode .btn-secondary {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .btn-secondary:hover {
+    background-color: #475569;
+    border-color: var(--border-color);
+}
+
+html.dark-mode .btn-outline-light {
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .btn-outline-light:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+/* ========== BADGES ========== */
+html.dark-mode .badge.bg-light {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+html.dark-mode .badge.bg-secondary {
+    background-color: #475569 !important;
+}
+
+/* ========== MÓDULO LOGIN ========== */
+html.dark-mode .login-container,
+html.dark-mode .registro-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+html.dark-mode .login-card,
+html.dark-mode .registro-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+html.dark-mode .login-body,
+html.dark-mode .registro-body {
+    background: var(--bg-secondary);
+}
+
+html.dark-mode .input-group-custom input,
+html.dark-mode .input-group-registro input {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .input-group-custom input:focus,
+html.dark-mode .input-group-registro input:focus {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+html.dark-mode .divider::before {
+    background: var(--border-color);
+}
+
+html.dark-mode .divider span {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+html.dark-mode .help-text {
+    color: var(--text-muted);
+}
+
+html.dark-mode .user-info-card {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    border-color: var(--success-color);
+}
+
+html.dark-mode .user-info-item {
+    border-bottom-color: rgba(16, 185, 129, 0.3);
+}
+
+html.dark-mode .password-requirements {
+    background: var(--bg-tertiary);
+}
+
+html.dark-mode .password-requirements h5,
+html.dark-mode .password-requirements li {
+    color: var(--text-secondary);
+}
+
+/* ========== PERFIL ========== */
+html.dark-mode .profile-header {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+}
+
+html.dark-mode .info-card {
+    background: var(--bg-secondary);
+    border-left-color: var(--primary-color);
+}
+
+html.dark-mode .stat-card {
+    background: var(--bg-tertiary);
+}
+
+/* ========== BOLETÍN ========== */
+html.dark-mode .boletin-container {
+    background: var(--bg-secondary);
+}
+
+html.dark-mode .info-alumno {
+    background: var(--bg-tertiary);
+    border-bottom-color: var(--border-color);
+}
+
+html.dark-mode .notas-section {
+    background: var(--bg-secondary);
+}
+
+html.dark-mode .tabla-boletin td {
+    border-color: var(--border-color);
+}
+
+html.dark-mode .nota-final-col {
+    background: rgba(59, 130, 246, 0.2);
+}
+
+html.dark-mode .resumen-section {
+    background: var(--bg-tertiary);
+    border-top-color: var(--border-color);
+}
+
+html.dark-mode .resumen-item {
+    background: var(--bg-secondary);
+}
+
+html.dark-mode .footer-boletin {
+    border-top-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+/* ========== ASISTENCIAS ========== */
+html.dark-mode .alumno-item {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+html.dark-mode .alumno-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+/* ========== HERO SECTION (INDEX) ========== */
+html.dark-mode .hero-section {
+    background-image: linear-gradient(
+        0deg,
+        rgba(15, 23, 42, 0.85),
+        rgba(15, 23, 42, 0.85)
+    ), url("/imagenes/FrenteEscuela.jpeg");
+}
+
+html.dark-mode .features-section,
+html.dark-mode .roles-section {
+    background: var(--bg-primary);
+}
+
+html.dark-mode .feature-card,
+html.dark-mode .role-card {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+html.dark-mode .feature-title,
+html.dark-mode .role-title,
+html.dark-mode .section-title {
+    color: var(--text-primary);
+}
+
+html.dark-mode .feature-description,
+html.dark-mode .section-description {
+    color: var(--text-secondary);
+}
+
+html.dark-mode .about-section {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+html.dark-mode .about-title {
+    color: var(--text-primary);
+}
+
+html.dark-mode .about-text {
+    color: var(--text-secondary);
+}
+
+html.dark-mode .stat-label,
+html.dark-mode .about-feature-item {
+    color: var(--text-secondary);
+}
+
+/* ========== FOOTER ========== */
+html.dark-mode .footer {
+    background: #0f172a;
+    border-top: 1px solid var(--border-color);
+}
+
+html.dark-mode .footer-logo-text {
+    color: var(--text-primary);
+}
+
+html.dark-mode .footer-description,
+html.dark-mode .footer-links a,
+html.dark-mode .footer-contact li {
+    color: var(--text-secondary);
+}
+
+html.dark-mode .footer-title {
+    color: var(--text-primary);
+}
+
+html.dark-mode .footer-bottom {
+    border-top-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+html.dark-mode .social-link {
+    background: var(--bg-tertiary);
+}
+
+html.dark-mode .social-link:hover {
+    background: var(--primary-color);
+}
+
+/* ========== SCROLLBAR ========== */
+html.dark-mode ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* ========== LISTA DE ENLACES ========== */
+html.dark-mode .list-group-item {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode .list-group-item:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* ========== PROGRESS BARS ========== */
+html.dark-mode .progress {
+    background: var(--bg-tertiary);
+}
+
+/* ========== TEXT UTILITIES ========== */
+html.dark-mode .text-muted {
+    color: var(--text-muted) !important;
+}
+
+html.dark-mode h1, 
+html.dark-mode h2, 
+html.dark-mode h3, 
+html.dark-mode h4, 
+html.dark-mode h5, 
+html.dark-mode h6 {
+    color: var(--text-primary);
+}
+
+html.dark-mode h1 {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ========== FILE INPUT ========== */
+html.dark-mode input[type="file"] {
+    color: var(--text-primary);
+}
+
+html.dark-mode input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+}
+
+/* ========== SELECT ========== */
+html.dark-mode select {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+html.dark-mode select option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* ========== MODAL (si usas modales de Bootstrap) ========== */
+html.dark-mode .modal-content {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+html.dark-mode .modal-header {
+    border-bottom-color: var(--border-color);
+}
+
+html.dark-mode .modal-footer {
+    border-top-color: var(--border-color);
+}
+
+html.dark-mode .modal-title {
+    color: var(--text-primary);
+}
+
+/* ============================================
+   CORRECCIONES ESPECÍFICAS DE BOTONES EN DARK MODE
+   Agregar DESPUÉS de los estilos de dark mode en styles.css
+   ============================================ */
+
+/* ========== BOTONES DE LOGIN ========== */
+html.dark-mode .btn-login {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-login:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white !important;
+    box-shadow: 0 5px 20px rgba(59, 130, 246, 0.5);
+}
+
+html.dark-mode .btn-register {
+    background: var(--bg-secondary);
+    color: var(--primary-color) !important;
+    border: 2px solid var(--primary-color);
+}
+
+html.dark-mode .btn-register:hover {
+    background: var(--primary-color);
+    color: white !important;
+}
+
+/* ========== BOTONES DE REGISTRO ========== */
+html.dark-mode .btn-registro {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-registro:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white !important;
+    box-shadow: 0 5px 20px rgba(16, 185, 129, 0.5);
+}
+
+html.dark-mode .btn-secundario {
+    background: var(--bg-secondary);
+    color: var(--success-color) !important;
+    border: 2px solid var(--success-color);
+}
+
+html.dark-mode .btn-secundario:hover {
+    background: var(--success-color);
+    color: white !important;
+}
+
+/* ========== BOTONES DEL HERO (LANDING PAGE) ========== */
+html.dark-mode .btn-hero {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-mode .btn-hero-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-hero-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white !important;
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+}
+
+html.dark-mode .btn-hero-secondary {
+    background: transparent;
+    color: white !important;
+    border: 2px solid white;
+}
+
+html.dark-mode .btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+    border-color: white;
+}
+
+/* ========== BOTONES CTA (LANDING PAGE) ========== */
+html.dark-mode .btn-cta-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-cta-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white !important;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+}
+
+html.dark-mode .btn-cta-outline {
+    background: transparent;
+    color: white !important;
+    border: 2px solid white;
+}
+
+html.dark-mode .btn-cta-outline:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+/* ========== BOTONES DEL ROL (LANDING PAGE) ========== */
+html.dark-mode .role-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+}
+
+html.dark-mode .role-btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white !important;
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+}
+
+/* ========== BOTONES GENERALES DE BOOTSTRAP ========== */
+html.dark-mode .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+    border: none;
+}
+
+html.dark-mode .btn-primary:hover,
+html.dark-mode .btn-primary:focus {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white !important;
+    border: none;
+}
+
+html.dark-mode .btn-success:hover,
+html.dark-mode .btn-success:focus {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000 !important;
+    border: none;
+}
+
+html.dark-mode .btn-warning:hover,
+html.dark-mode .btn-warning:focus {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #000 !important;
+}
+
+html.dark-mode .btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white !important;
+    border: none;
+}
+
+html.dark-mode .btn-danger:hover,
+html.dark-mode .btn-danger:focus {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white !important;
+}
+
+html.dark-mode .btn-info {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white !important;
+    border: none;
+}
+
+html.dark-mode .btn-info:hover,
+html.dark-mode .btn-info:focus {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+    color: white !important;
+}
+
+/* ========== BOTONES OUTLINE EN DARK MODE ========== */
+html.dark-mode .btn-outline-primary {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    background: transparent;
+}
+
+html.dark-mode .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white !important;
+}
+
+html.dark-mode .btn-outline-success {
+    color: var(--success-color) !important;
+    border-color: var(--success-color);
+    background: transparent;
+}
+
+html.dark-mode .btn-outline-success:hover {
+    background: var(--success-color);
+    color: white !important;
+}
+
+html.dark-mode .btn-outline-warning {
+    color: var(--warning-color) !important;
+    border-color: var(--warning-color);
+    background: transparent;
+}
+
+html.dark-mode .btn-outline-warning:hover {
+    background: var(--warning-color);
+    color: #000 !important;
+}
+
+html.dark-mode .btn-outline-danger {
+    color: var(--danger-color) !important;
+    border-color: var(--danger-color);
+    background: transparent;
+}
+
+html.dark-mode .btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white !important;
+}
+
+html.dark-mode .btn-outline-info {
+    color: var(--info-color) !important;
+    border-color: var(--info-color);
+    background: transparent;
+}
+
+html.dark-mode .btn-outline-info:hover {
+    background: var(--info-color);
+    color: white !important;
+}
+
+/* ========== ASEGURAR VISIBILIDAD EN LINKS DE BOTONES ========== */
+html.dark-mode a.btn,
+html.dark-mode button.btn {
+    text-decoration: none;
+}
+
+/* Específico para enlaces que parecen botones */
+html.dark-mode a.btn-primary,
+html.dark-mode a.btn-success,
+html.dark-mode a.btn-warning,
+html.dark-mode a.btn-danger,
+html.dark-mode a.btn-info {
+    color: inherit !important;
+}
+
+/* ========== BOTONES DE ASISTENCIA ========== */
+html.dark-mode .btn-group-asistencia .btn-check:checked + .btn-outline-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    color: white !important;
+}
+
+html.dark-mode .btn-group-asistencia .btn-check:checked + .btn-outline-warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: #000 !important;
+}
+
+html.dark-mode .btn-group-asistencia .btn-check:checked + .btn-outline-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+    color: white !important;
+}
+
+/* ========== BOTONES EN FOOTER ========== */
+html.dark-mode .footer .btn {
+    color: white !important;
+}
+
+/* ========== FIX PARA INPUT FILE BUTTON ========== */
+html.dark-mode input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white !important;
+}
+
+html.dark-mode input[type="file"]::file-selector-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+/* ========== ASEGURAR CONTRASTE EN TODOS LOS ESTADOS ========== */
+html.dark-mode .btn:active,
+html.dark-mode .btn:focus,
+html.dark-mode .btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ========== DROPDOWN BUTTONS ========== */
+html.dark-mode .dropdown-toggle {
+    color: var(--text-primary) !important;
+}
+
+html.dark-mode .dropdown-toggle::after {
+    border-top-color: var(--text-primary);
+}
+
+/* ========== PRINT (mantener claro) ========== */
+@media print {
+    html.dark-mode body,
+    html.dark-mode .boletin-container,
+    html.dark-mode .card {
+        background: white !important;
+        color: black !important;
     }
 }

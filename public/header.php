@@ -48,13 +48,13 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" 
-            <?php 
+        <?php 
                 if (!isset($_SESSION['nombre1'])) {
                     echo 'href="./index.php"';
                 } else {
                     echo 'href="./home.php"';
                 }
-            ?>>
+                ?>>
             <div class="brand-icon">
                 <img src="./imagenes/logo.png" alt="Logo EEST N°2" class="logo-img">
             </div>
@@ -70,14 +70,27 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <?php if (isset($_SESSION['nombre1'])):  // SESION INICIADA ?>
-            <ul class="navbar-nav ms-auto">
-                <?php if ($_SESSION['rol'] == 'Director'): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="directorDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-crown me-2"></i>
-                        Panel de Dirección
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item d-flex align-items-center">
+                        <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema oscuro" title="Cambiar tema">
+                            <span class="theme-toggle__icons" aria-hidden="true">
+                                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+                                </svg>
+                                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4V2M12 22v-2M20 12h2M2 12h2M18.36 5.64l1.41-1.41M4.22 19.78l1.41-1.41M18.36 18.36l1.41 1.41M4.22 4.22l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </li>
+                    <?php if ($_SESSION['rol'] == 'Director'): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="directorDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-crown me-2"></i>
+                                Panel de Dirección
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="./dashboard_director.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Gestión</h6></li>
@@ -126,19 +139,6 @@
                 <?php endif; ?>
                 
                 <!-- Theme Toggle Button -->
-                <li class="nav-item d-flex align-items-center">
-                    <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema oscuro" title="Cambiar tema">
-                        <span class="theme-toggle__icons" aria-hidden="true">
-                            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
-                            </svg>
-                            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 4V2M12 22v-2M20 12h2M2 12h2M18.36 5.64l1.41-1.41M4.22 19.78l1.41-1.41M18.36 18.36l1.41 1.41M4.22 4.22l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="12" cy="12" r="3" fill="currentColor"/>
-                            </svg>
-                        </span>
-                    </button>
-                </li>
                 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">

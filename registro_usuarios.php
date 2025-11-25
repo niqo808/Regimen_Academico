@@ -1,6 +1,5 @@
 <?php
 include('./conexion/conexion.php');
-include('./public/header.php');
 
 // Mostrar mensajes si existen
 if (isset($_SESSION['error_registro'])){
@@ -76,18 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['registrar_usuario'])) 
         }
     }
 }
+include('./public/header.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style/styles.css">
-    <title>Registro - EEST N°2</title>
-    <style>
-        .registro-container {
-            min-height: 80vh;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./style/styles.css">
+        <title>Registro - EEST N°2</title>
+        <style>
+            .registro-container {
+                min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;

@@ -1511,7 +1511,7 @@ input[type="file"]::file-selector-button:hover {
         0deg,
         rgba(0,0,0,0.5),
         rgba(0,0,0,0.5)
-    ),url("imagenes/FrenteEscuela.jpeg");
+    ),url("../imagenes/FrenteEscuela.jpeg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover; 

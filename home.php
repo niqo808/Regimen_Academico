@@ -1,8 +1,10 @@
 <?PHP
 // HOME PHP
-    //include('./public/headerLogin.php') // el archivo tiene el encabezado con el menu
     include('./conexion/conexion.php');
-    include('./public/header.php');
+    if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'Director') {
+        header("Location: dashboard_director.php");
+        exit;
+    }
     if (isset($_SESSION['error_login'])){
         echo "<script> alert('".$_SESSION['error_login']."') ;</script>";
         unset ($_SESSION['error_login']);
@@ -11,6 +13,7 @@
         echo "<script> alert('".$_SESSION['error_usuario']."') ;</script>";
         unset ($_SESSION['error_usuario']);
     }
+    include('./public/header.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">

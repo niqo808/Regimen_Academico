@@ -71,7 +71,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <?php if (isset($_SESSION['nombre1'])):  // SESION INICIADA ?>
             <ul class="navbar-nav ms-auto">
-                <?php if ($_SESSION['rol'] == 'Alumno'): ?>
+                <?php if ($_SESSION['rol'] == 'Director'): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="directorDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-crown me-2"></i>
+                        Panel de Dirección
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="./dashboard_director.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Gestión</h6></li>
+                        <li><a class="dropdown-item" href="./gestionar_usuarios_director.php"><i class="fas fa-users me-2"></i>Usuarios</a></li>
+                        <li><a class="dropdown-item" href="./gestionar_cursos_director.php"><i class="fas fa-school me-2"></i>Cursos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header">Reportes</h6></li>
+                        <li><a class="dropdown-item" href="./ver_todos_boletines.php"><i class="fas fa-file-alt me-2"></i>Boletines</a></li>
+                        <li><a class="dropdown-item" href="./reportes_director.php"><i class="fas fa-chart-bar me-2"></i>Estadísticas</a></li>
+                    </ul>
+                </li>
+                <?php elseif ($_SESSION['rol'] == 'Alumno'): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="alumnoDropdown" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user-graduate me-2"></i>

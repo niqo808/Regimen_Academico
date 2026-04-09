@@ -95,20 +95,23 @@ http://localhost/Regimen_Academico/index.php
 ---
 
 ## Estructura del proyecto
+
+```
 Regimen_Academico/
-├── conexion/               # Configuración de conexión a la base de datos
-├── imagenes/               # Recursos visuales
-├── public/                 # Archivos estáticos públicos
-├── style/                  # Hojas de estilo CSS
-├── sistema_escuela.sql     # Script de creación e importación de la base de datos
-├── index.php               # Punto de entrada
-├── login.php               # Autenticación de usuarios
-├── dashboard_director.php  # Panel del director
-├── gestionar_notas.php     # Módulo de notas
-├── gestionar_asistencias.php
-├── generar_boletin.php
-├── importar_alumnos.php
+├── conexion/                   # Configuración de conexión a la base de datos
+├── imagenes/                   # Recursos visuales
+├── public/                     # Archivos estáticos públicos
+├── style/                      # Hojas de estilo CSS
+├── sistema_escuela.sql         # Script de creación de la base de datos
+├── index.php                   # Punto de entrada
+├── login.php                   # Autenticación de usuarios
+├── dashboard_director.php      # Panel del director
+├── gestionar_notas.php         # Módulo de notas
+├── gestionar_asistencias.php   # Módulo de asistencias
+├── generar_boletin.php         # Generación de boletines
+├── importar_alumnos.php        # Importación masiva por CSV
 └── ...
+```
 
 ---
 
